@@ -1,0 +1,49 @@
+plugins {
+    id 'com.github.johnrengelman.shadow' version "${shadowVersion}"
+    id 'application'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(project.javaVersion)
+    }
+    withJavadocJar()
+}
+
+application {
+    mainClass = project.mainClass
+}
+
+//noinspection GroovyAssignabilityCheck
+run {
+    standardInput = System.in
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    implementation fileTree(dir: 'libs', include: '*.jar')
+
+    testImplementation "org.junit.jupiter:junit-jupiter:${project.junitVersion}"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${project.junitVersion}"
+
+}
+
+test {
+    useJUnitPlatform()
+}
+
+javadoc {
+    //noinspection GroovyAssignabilityCheck
+    options {
+        //noinspection GrUnresolvedAccess
+        links "https://docs.oracle.com/en/java/javase/${project.javaVersion}/docs/api/"
+    }
+}
+
+assemble {
+    dependsOn shadowJar, javadocJar
+}
