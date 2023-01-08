@@ -82,7 +82,7 @@ public class Board {
     if (ship.getDirection() == Direction.HORIZONTAL)
       return (length - y + 1) > l;
     else
-      return (length - x + 1) > l;
+      return (length - x + 1) > l; // this is a not so I can Push again
   }
 
 }
