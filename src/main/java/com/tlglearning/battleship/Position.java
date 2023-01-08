@@ -1,8 +1,8 @@
 package com.tlglearning.battleship;
 
   public class Position {  // Private variables to store the row and column coordinates of the position
-    private int row;
-    private int column;
+    private final int row;
+    private final int column;
 
     public Position(int row, int column) {  //// Constructor to initialize the row and column coordinates of the position
       this.row = row;

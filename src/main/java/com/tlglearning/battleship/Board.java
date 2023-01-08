@@ -9,10 +9,6 @@ public class Board {
   private final int length; //one variable for rows = columns = 10 [10x10 matrix]
   private char[][] board; // 2 Dimensional array called board
   private int numShips = 0; //counter for the number of ships
-  public static final char HIT = '☒';  //  character representing a hit on a ship. let checkbox = '\u2612'
-  public static final char MISS = '☸'; // character representing a missed shot.  char dharmaWheel = '\u2638'
-  public static final char SHIP = '☐';  // character representing a ship on the board. Not checkbox = '\u2610'
-  public static final char WATER = '~';  //character representing water on the board. The tilde character is: &#126
 
   // Constructors
   public Board(
@@ -31,7 +27,7 @@ public class Board {
   private char[][] initBoard() { //private access modifier that defines a return type method (char[][]) named initBoard().
     char[][] matrix = new char[length][length]; //declares a new two-dimensional array of characters called matrix which is initializes it specified dimensions through the length field
     for (char[] row : matrix) { //for loop that iterates over each row of the matrix array. char[]row will declare a new variable called row that will hold the current row of the array for each iteration of the for loop.
-      Arrays.fill(row, WATER); // fills the current row of the matrix with water constant.
+      Arrays.fill(row, PositionStatus.WATER.getStatus()); // fills the current row of the matrix with water constant.
     }
     return matrix; // returns the matrix array to the caller of he method.
   }
@@ -59,24 +55,9 @@ public class Board {
     return true;
   }
 
-  public boolean thereIsShip(com.tlglearning.battleship.Position position) {
-    return at(position) == SHIP;
-  }
-
-  public boolean thereIsWater(com.tlglearning.battleship.Position position) {
-    return at(position) == WATER;
-  }
-
-  public boolean thereIsMiss(com.tlglearning.battleship.Position position) {
-    return at(position) == MISS;
-  }
-
-  public boolean thereIsHit(com.tlglearning.battleship.Position position) {
-    return at(position) == HIT;
-  }
 
   public boolean thereIsSpace(Ship ship) {
-    int l = ship.getLength();
+    int l = ship.getShipType().getLength();
     int x = ship.getPosition().getRow();
     int y = ship.getPosition().getColumn();
     if (ship.getDirection() == Direction.HORIZONTAL)
