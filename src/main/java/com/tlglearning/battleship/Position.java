@@ -18,6 +18,6 @@ package com.tlglearning.battleship;
       return column;
     }
 
-    Position myPosition = new Position(10, 10);
+    //Position myPosition = new Position(10, 10);
   }
 
