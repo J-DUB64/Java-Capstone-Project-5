@@ -83,7 +83,7 @@ public class BoardTest {
     assertTrue(board.spaceAvailable(ship3));
     assertTrue(board.spaceAvailable(ship4));
     assertThrows(IllegalArgumentException.class, () -> board.spaceAvailable(ship5));
-    assertThrows(IllegalArgumentException.class, () -> board.spaceAvailable(ship6));
+    assertThrows(IllegalArgumentException.class, () -> board.spaceAvailable(ship6));//
   }
 }
 
