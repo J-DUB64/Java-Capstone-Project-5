@@ -8,8 +8,8 @@ public enum PositionStatus {
 
   private final char status;
 
-  PositionStatus(char c) {
-    this.status=c;
+  PositionStatus(char status) {
+    this.status=status;
   }
 
   public char getStatus() {
