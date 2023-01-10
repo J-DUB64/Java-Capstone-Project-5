@@ -8,6 +8,14 @@ public class Position {  // Private variables to store the row and column coordi
   private final int column;
   private PositionStatus status;
 
+  public PositionStatus getStatus() {
+    return status;
+  }
+
+  public void setStatus(PositionStatus status) {
+    this.status = status;
+  }
+
   public Position(int row,
       int column) {  // Constructor to initialize the row and column coordinates of the position
     this.row = row;
@@ -23,6 +31,7 @@ public class Position {  // Private variables to store the row and column coordi
   public int getColumn() {
     return column;
   }
+
 
   // Modify the at method to return the status field of the position object
   public char at(Position position) {

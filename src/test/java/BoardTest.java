@@ -9,7 +9,7 @@ import com.tlglearning.battleship.Position;
 import com.tlglearning.battleship.PositionStatus;
 import com.tlglearning.battleship.Ship;
 import com.tlglearning.battleship.Ship.Direction;
-import com.tlglearning.battleship.Ship.ShipType;
+import com.tlglearning.battleship.ShipType;
 import org.junit.jupiter.api.Test;
 
 public class BoardTest {
@@ -71,6 +71,7 @@ public class BoardTest {
   @Test
   public void testSpaceAvailable() {
     Board board = new Board(5);
+    Ship ship = new Ship(ShipType.DESTROYER, new Position(0, 0), Direction.HORIZONTAL);
     Ship ship1 = new Ship(ShipType.CARRIER, new Position(0, 0), Direction.HORIZONTAL);
     Ship ship2 = new Ship(ShipType.CARRIER, new Position(0, 3), Direction.HORIZONTAL);
     Ship ship3 = new Ship(ShipType.BATTLESHIP, new Position(0, 0), Direction.VERTICAL);
