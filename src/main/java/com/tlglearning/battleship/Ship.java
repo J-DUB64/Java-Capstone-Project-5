@@ -15,11 +15,26 @@ public class Ship {
   }
 
   // Enum to represent the possible directions that a ship can be placed on the board
-    public enum Direction {
-      HORIZONTAL, VERTICAL
+  public enum Direction {
+    HORIZONTAL(0, 1),
+    VERTICAL(1, 0);
 
+    private final int rowOffset;
+    private final int columnOffset;
 
+    Direction(int rowOffset, int columnOffset) {
+      this.rowOffset = rowOffset;
+      this.columnOffset = columnOffset;
     }
+
+    public int getRowOffset() {
+      return rowOffset;
+    }
+
+    public int getColumnOffset() {
+      return columnOffset;
+    }
+  }
 
     // Public methods to allow other parts of the program to access the length, position, and direction of the ship
 
