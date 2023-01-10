@@ -15,12 +15,13 @@ public class GameState {
     this.output=output;
   }
 
-  public Board playerBoard = new Board(10);
+  public Board playerBoard = new Board(10); //temporarily using 10 to get to MVP
+  public Board computerBoard = new Board(10);
 
   public void placeShips() throws IOException {
     for(ShipType ship : ShipType.values()){  //for loop to cycle through the enum shipType
       System.out.printf(  //User input that will select the row that the want to use
-          "What row do you want to place the %s that is %d spaces long", ship.name(), ship.getLength());
+          "What row do you want the %s that is %d spaces long, to start on?", ship.name(), ship.getLength());
       int row = Integer.parseInt(this.input.readLine().strip());
 
       System.out.printf(  //User input that will determine if the ship is horizontal or vertical
@@ -35,7 +36,7 @@ public class GameState {
       }
 
       System.out.printf(  //User input that will determine the column they want to use
-          "What column do you want to place the %s that is %d spaces long", ship.name(), ship.getLength());
+          "What column do you want the %s that is %d spaces long to end on?", ship.name(), ship.getLength());
       int column = Integer.parseInt(this.input.readLine().strip());
 
       //Creates a new ship with the input data, from
@@ -48,6 +49,7 @@ public class GameState {
 //      }
 //      else{
 //      }
+      //adding the ship the board by changing the position status of the positions
       switch(ship.getLength()){
         case 1:
           shipPlace.getPosition().setStatus(PositionStatus.SHIP);
@@ -55,10 +57,12 @@ public class GameState {
         case 2:
           if(shipPlace.getDirection()==Direction.VERTICAL) {
             int y = shipPlace.getPosition().getColumn() + 1;
+            shipPlace.getPosition().setStatus(PositionStatus.SHIP);
             new Position(shipPlace.getPosition().getRow(), y).setStatus(PositionStatus.SHIP);
           }
           else{
             int x = shipPlace.getPosition().getRow() + 1;
+            shipPlace.getPosition().setStatus(PositionStatus.SHIP);
             new Position(shipPlace.getPosition().getRow(), x).setStatus(PositionStatus.SHIP);
           }
         case 3:
