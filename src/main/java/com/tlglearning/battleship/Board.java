@@ -7,9 +7,9 @@ import com.tlglearning.battleship.Position;
 
 public class Board {
 
-  private final int length; //one variable for rows = columns = 10 [10x10 matrix]
-  private char[][] board; // 2 Dimensional array called board
-  private int numShips = 0; //counter for the number of ships
+  public final int length; //one variable for rows = columns = 10 [10x10 matrix]
+  public char[][] board; // 2 Dimensional array called board
+  public int numShips = 0; //counter for the number of ships
 
   // Constructors
   //constructor that initializes a new instance with a given length and creates a new board using the initBoard() method.
@@ -28,7 +28,7 @@ public class Board {
 
   //Methods
   //private method that creates a new matrix of characters with dimensions equal to the length field of the Board instance and fills all elements of the matrix with the PositionStatus.WATER.getStatus() value, then returns the matrix.
-  private char[][] initBoard() { //private access modifier that defines a return type method (char[][]) named initBoard().
+  public char[][] initBoard() { //private access modifier that defines a return type method (char[][]) named initBoard().
     char[][] matrix = new char[length][length]; //declares a new two-dimensional array of characters called matrix which is initializes it specified dimensions through the length field
     for (char[] row : matrix) { //for loop that iterates over each row of the matrix array. char[]row will declare a new variable called row that will hold the current row of the array for each iteration of the for loop.
       Arrays.fill(row,
@@ -53,50 +53,28 @@ public class Board {
   }
 
   //method called at that takes a Position object as an argument and returns the character at the position represented by the Position object in the board array.
-  public char at(
-      Position position) { //at method that allows other parts of the program to access specific elements of the board array based on the board position.
+  public char at(Position position) { //at method that allows other parts of the program to access specific elements of the board array based on the board position.
     return board[position.getRow()][position.getColumn()]; //returns the position of the board based on the getRow() and getColumn() values.
   }
 
   // method that sets the element of the board field at the specified row and column to the given status value and returns true. The row and column are specified through the position argument, which is an instance of the Position class.
-  public boolean set(char status,
-      Position position) { //method set() that has two arguments: char value called status
+  public boolean set(char status, Position position) { //method set() that has two arguments: char value called status
     board[position.getRow()][position.getColumn()] = status;
     return true;
   }
 
   //method that checks whether there is enough space on the board for the given ship to be placed, based on the length of the ship and its Direction
-  public boolean thereIsSpace(
+  public boolean spaceAvailable(
       Ship ship) {  //thereIsSpace method return type boolean that takes a Ship object as an argument.
-    int l = ship.getShipType()
-        .getLength(); //  local variable l and assigns it the length of the ship
+    int l = ship.getLength(); //  local variable l and assigns it the length of the ship
     int x = ship.getPosition().getRow(); //assigns the row coordinate of the position of the ship
-    int y = ship.getPosition()
-        .getColumn(); //assigns the column coordinate of the position of the ship object
+    int y = ship.getPosition().getColumn(); //assigns the column coordinate of the position of the ship object
     if (ship.getDirection()
         == Direction.HORIZONTAL) //checks if the direction of the ship object is HORIZONTAL
-      return (length - y + 1)
-          > l; // if true, there is enough space for the ship to be placed horizontally
-    else
-      return (length - x + 1)
-          > l; // if false, this line returns true then there is enough space for the ship vertically. If false the current location does not have space to place that ship on the board
-  }
-
-  //method called isShipAround checks if there are ships in the given position (row, column) or in any of the cells surrounding it. If true returns there is a ship.
-  public boolean isShipAround(int row,
-      int column) { //isShipAround method coolean return type that takes two arguments: int values called row and column.
-    if (board[row][column] == PositionStatus.SHIP.getStatus())
-      return true; //checks if the cell at the given position (row, column) on the board array contains a ship based on the PositionsStatus.Ship enum char value
-    for (int r = row - 1; r <= row + 1;
-        r++) { //ested loop that iterates over the cells surrounding chosen position in the same row
-      for (int c = column - 1; c <= column + 1;
-          c++) { //loop that looks the cells in the same column
-        if (r >= 0 && r < length && c >= 0 && c < length
-            && board[r][c] == PositionStatus.SHIP.getStatus())
-          return true; //checks cells in the board array based on coordinates
-      }
+      return (length - y)
+          > 1; // if true, there is enough space for the ship to be placed horizontally
+    else {
+      return (length - x) > 1; // if false, this line returns true then there is enough space for the ship vertically. If false the current location does not have space to place that ship on the board
     }
-    return false;
   }
-
 }

@@ -15,4 +15,12 @@ public enum PositionStatus {
   public char getStatus() {
     return status;
   }
+
+  public int getRow() {
+    return status;
+  }
+
+  public int getColumn() {
+    return status;
+  }
 }
