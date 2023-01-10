@@ -2,11 +2,11 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.tlglearning.battleship.Board;
 import com.tlglearning.battleship.Position;
-import com.tlglearning.battleship.PositionStatus;
 import com.tlglearning.battleship.Ship;
 import com.tlglearning.battleship.Ship.Direction;
 import com.tlglearning.battleship.ShipType;
@@ -65,7 +65,7 @@ public class BoardTest {
     char[][] matrix = {{'X', 'O', 'X'}, {'O', 'X', 'O'}, {'X', 'O', 'X'}};
     Board board = new Board(matrix);
     Position position = new Position(1, 1);
-    assertEquals('X', board.at(position));
+    assertEquals('X', board.get(position));
   }
 
   @Test
@@ -82,8 +82,8 @@ public class BoardTest {
     assertTrue(board.spaceAvailable(ship2));
     assertTrue(board.spaceAvailable(ship3));
     assertTrue(board.spaceAvailable(ship4));
-    assertFalse(board.spaceAvailable(ship5));
-    assertFalse(board.spaceAvailable(ship6));
+    assertThrows(IllegalArgumentException.class, () -> board.spaceAvailable(ship5));
+    assertThrows(IllegalArgumentException.class, () -> board.spaceAvailable(ship6));//
   }
 }
 
