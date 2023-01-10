@@ -8,11 +8,9 @@ public enum ShipType {
   PATROL_BOAT(1);
 
   private final int length;
-  private int spotsRemaining;
 
   ShipType(int length) {
     this.length=length;
-    this.spotsRemaining=length;
   }
 
   public int getLength() {

@@ -1,7 +1,11 @@
 package com.tlglearning.battleship;
 
 public enum PositionStatus {
-  SHIP('\u2610'),
+  CARRIER('\u2610'),
+  BATTLESHIP('\u2610'),
+  DESTROYER('\u2610'),
+  SUBMARINE('\u2610'),
+  PATROL_BOAT('\u2610'),
   WATER('~'),
   HIT('\u2612'),
   MISS('\u2638');
@@ -16,11 +20,4 @@ public enum PositionStatus {
     return status;
   }
 
-  public int getRow() {
-    return status;
-  }
-
-  public int getColumn() {
-    return status;
-  }
 }
