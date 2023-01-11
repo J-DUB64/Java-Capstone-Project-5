@@ -2,7 +2,6 @@ package com.tlglearning.battleship;
 
 import com.tlglearning.battleship.Ship.Direction;
 import java.util.Arrays;
-import com.tlglearning.battleship.Position;
 
 
 public class Board {
@@ -73,15 +72,14 @@ public class Board {
     int column = ship.getPosition()
         .getColumn(); //assigns the column coordinate of the position of the ship object
     for (int i = 0; i < shipLength; i++) {
-      row = row + i * ship.getDirection().getRowOffset();
-      column = column + i * ship.getDirection().getColumnOffset();
-      if (row < 0 || row >= board.length || column < 0 || column >= board[0].length) {
-        throw new IllegalArgumentException("Can not place here, position is out of bounds");
-      }
-      if (board[row][column] != PositionStatus.WATER.getStatus()) {
-        throw new IllegalArgumentException("Can not place here, position already occupied");
+      int checkRow = row + i * ship.getDirection().getRowOffset();
+      int checkColumn = column + i * ship.getDirection().getColumnOffset();
+      if (checkRow < 0 || checkRow >= board.length || checkColumn < 0
+          || checkColumn >= board[0].length ||
+          board[checkRow][checkColumn] != PositionStatus.WATER.getStatus()) {
+        throw new IllegalArgumentException("Can not place here");
       }
     }
-      return true;
+    return true;
   }
 }

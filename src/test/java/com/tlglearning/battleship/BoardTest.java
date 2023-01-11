@@ -1,3 +1,5 @@
+package com.tlglearning.battleship;
+
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -8,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import com.tlglearning.battleship.Board;
 import com.tlglearning.battleship.Position;
+import com.tlglearning.battleship.PositionStatus;
 import com.tlglearning.battleship.Ship;
 import com.tlglearning.battleship.Ship.Direction;
 import com.tlglearning.battleship.ShipType;
@@ -97,6 +100,24 @@ public class BoardTest {
       assertTrue(board.spaceAvailable(ship5));
       assertFalse(board.spaceAvailable(ship6));
       assertFalse(board.spaceAvailable(ship7));
+    } catch (IllegalArgumentException e) {
+      System.out.println("ship placement failed: " + e.getMessage());
+    }
+  }
+
+  @Test
+  public void testSpaceAvailable_placementNotValid() {
+    Board board = new Board(10);
+    Position position = new Position(3, 3);
+    Ship ship1 = new Ship(ShipType.CARRIER, position, Direction.VERTICAL);
+    board.spaceAvailable(ship1);
+    Position position2 = new Position(3, 5);
+    Ship ship2 = new Ship(ShipType.CARRIER, position2, Direction.VERTICAL);
+    boolean spaceAvailable = board.spaceAvailable(ship2);
+    assertFalse(spaceAvailable);
+    try {
+      assertTrue(board.spaceAvailable(ship1));
+      assertTrue(board.spaceAvailable(ship2));
     } catch (IllegalArgumentException e) {
       System.out.println("ship placement failed: " + e.getMessage());
     }
