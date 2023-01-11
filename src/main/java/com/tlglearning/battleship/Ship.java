@@ -4,9 +4,9 @@ public class Ship {
 
 
   // Private variables to store the length, position, and direction of the ship
-    private final ShipType shipType;
+    private ShipType shipType;
     private Position position;
-    private final Direction direction;
+    private Direction direction;
     private int healthPoints;
 
   public Ship(ShipType shipType, Position position, Direction direction) {
@@ -36,7 +36,23 @@ public class Ship {
       return direction;
     }
 
-    // Other methods for the Ship class
+  public void setShipType(ShipType shipType) {
+    this.shipType = shipType;
+  }
+
+  public void setPosition(Position position) {
+    this.position = position;
+  }
+
+  public void setDirection(Direction direction) {
+    this.direction = direction;
+  }
+
+  public void setHealthPoints(int healthPoints) {
+    this.healthPoints = healthPoints;
+  }
+
+  // Other methods for the Ship class
 
     // Enum to represent the possible directions that a ship can be placed on the board
     public enum Direction {

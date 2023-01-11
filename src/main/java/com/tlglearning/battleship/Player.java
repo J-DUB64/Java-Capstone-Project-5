@@ -30,4 +30,9 @@ public class Player {
   public ArrayList<Ship> getPlayerShipInventory() {
     return playerShipInventory;
   }
+
+  public void addShipToPlayerInventory(Ship ship){
+    playerShipInventory.add(ship);
+  }
+  //come back and see if this works and is cohesive with encapsulation
 }
