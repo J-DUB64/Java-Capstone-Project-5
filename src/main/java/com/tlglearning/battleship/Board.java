@@ -53,12 +53,14 @@ public class Board {
   }
 
   //method called at that takes a Position object as an argument and returns the character at the position represented by the Position object in the board array.
-  public char get(Position position) { //at method that allows other parts of the program to access specific elements of the board array based on the board position.
+  public char get(
+      Position position) { //at method that allows other parts of the program to access specific elements of the board array based on the board position.
     return board[position.getRow()][position.getColumn()]; //returns the position of the board based on the getRow() and getColumn() values.
   }
 
   // method that sets the element of the board field at the specified row and column to the given status value and returns true. The row and column are specified through the position argument, which is an instance of the Position class.
-  public boolean set(char status, Position position) { //method set() that has two arguments: char value called status
+  public boolean set(char status,
+      Position position) { //method set() that has two arguments: char value called status
     board[position.getRow()][position.getColumn()] = status; //
     return true;
   }
@@ -68,10 +70,11 @@ public class Board {
       Ship ship) {  //thereIsSpace method return type boolean that takes a Ship object as an argument.
     int shipLength = ship.getLength(); //  local variable l and assigns it the length of the ship
     int row = ship.getPosition().getRow(); //assigns the row coordinate of the position of the ship
-    int column = ship.getPosition().getColumn(); //assigns the column coordinate of the position of the ship object
-    for (int i =0; i < shipLength; i++) {
+    int column = ship.getPosition()
+        .getColumn(); //assigns the column coordinate of the position of the ship object
+    for (int i = 0; i < shipLength; i++) {
       row = row + i * ship.getDirection().getRowOffset();
-      column = column + i *ship.getDirection().getColumnOffset();
+      column = column + i * ship.getDirection().getColumnOffset();
       if (row < 0 || row >= board.length || column < 0 || column >= board[0].length) {
         throw new IllegalArgumentException("Can not place here, position is out of bounds");
       }
@@ -79,6 +82,6 @@ public class Board {
         throw new IllegalArgumentException("Can not place here, position already occupied");
       }
     }
-    return true;
-    }
+      return true;
   }
+}
