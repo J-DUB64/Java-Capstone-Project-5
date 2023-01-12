@@ -1,6 +1,9 @@
 package com.tlglearning.battleship;
 
-import com.tlglearning.battleship.Ship.Direction;
+import com.tlglearning.battleship.model.ShipType;
+import com.tlglearning.battleship.model.Position;
+import com.tlglearning.battleship.model.Ship;
+import com.tlglearning.battleship.model.Ship.Direction;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

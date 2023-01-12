@@ -1,6 +1,4 @@
-package com.tlglearning.battleship;
-
-import com.sun.source.doctree.HiddenTree;
+package com.tlglearning.battleship.model;
 
 public class Position {
 

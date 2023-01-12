@@ -1,9 +1,8 @@
-package com.tlglearning.battleship;
+package com.tlglearning.battleship.model;
 
 public class Ship {
 
-
-  // Private variables to store the length, position, and direction of the ship
+  // fields
     private ShipType shipType;
     private Position position;
     private Direction direction;
@@ -16,6 +15,7 @@ public class Ship {
     this.healthPoints = shipType.getLength();
   }
 
+  // getters & setters
     public ShipType getShipType() {
     return shipType;
   }

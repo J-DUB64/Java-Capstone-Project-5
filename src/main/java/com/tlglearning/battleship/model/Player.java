@@ -1,6 +1,6 @@
-package com.tlglearning.battleship;
+package com.tlglearning.battleship.model;
 
-import com.tlglearning.battleship.Ship.Direction;
+import com.tlglearning.battleship.model.Ship.Direction;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -16,6 +16,7 @@ public class Player {
   private boolean rowCoordinateEntryCompleted = false;
   private boolean columnCoordinateEntryCompleted = false;
   private boolean directionSelectionCompleted = false;
+  private boolean isComputer = false;
 
   public Player(String name, Board playerBoard) {
     this.name = name;
@@ -113,20 +114,20 @@ public class Player {
         playerShipInventory.add(shipPlace);
         switch (ship.getLength()) {
           case 1:
-            getPlayerBoard().set(PositionStatus.PATROL_BOAT.getStatus(), shipPlace.getPosition());
+            getPlayerBoard().setCharacterAtPosition(PositionStatus.PATROL_BOAT.getStatus(), shipPlace.getPosition());
             break;
           case 2:
             if (shipPlace.getDirection() == Direction.VERTICAL) {
               for(int i=0; i<ship.getLength(); i++){
                 Position offset = new Position(shipPlace.getPosition().getRow(),
                     shipPlace.getPosition().getColumn()+i);
-                getPlayerBoard().set(PositionStatus.SUBMARINE.getStatus(), offset);
+                getPlayerBoard().setCharacterAtPosition(PositionStatus.SUBMARINE.getStatus(), offset);
               }
             } else {
               for (int i = 0; i < ship.getLength(); i++) {
                 Position offset = new Position(shipPlace.getPosition().getRow() + i,
                     shipPlace.getPosition().getColumn());
-                getPlayerBoard().set(PositionStatus.SUBMARINE.getStatus(), offset);
+                getPlayerBoard().setCharacterAtPosition(PositionStatus.SUBMARINE.getStatus(), offset);
               }
             }
             break;
@@ -135,13 +136,13 @@ public class Player {
               for(int i=0; i<ship.getLength(); i++) {
                 Position offset = new Position(shipPlace.getPosition().getRow(),
                     shipPlace.getPosition().getColumn() + i);
-                getPlayerBoard().set(PositionStatus.DESTROYER.getStatus(), offset);
+                getPlayerBoard().setCharacterAtPosition(PositionStatus.DESTROYER.getStatus(), offset);
               }
             }else{
               for (int i = 0; i < ship.getLength(); i++) {
                 Position offset = new Position(shipPlace.getPosition().getRow() + i,
                     shipPlace.getPosition().getColumn());
-                getPlayerBoard().set(PositionStatus.DESTROYER.getStatus(), offset);
+                getPlayerBoard().setCharacterAtPosition(PositionStatus.DESTROYER.getStatus(), offset);
               }
             }
             break;
@@ -150,13 +151,13 @@ public class Player {
               for(int i=0; i<ship.getLength(); i++) {
                 Position offset = new Position(shipPlace.getPosition().getRow(),
                     shipPlace.getPosition().getColumn() + i);
-                getPlayerBoard().set(PositionStatus.BATTLESHIP.getStatus(), offset);
+                getPlayerBoard().setCharacterAtPosition(PositionStatus.BATTLESHIP.getStatus(), offset);
               }
             }else{
               for (int i = 0; i < ship.getLength(); i++) {
                 Position offset = new Position(shipPlace.getPosition().getRow() + i,
                     shipPlace.getPosition().getColumn());
-                getPlayerBoard().set(PositionStatus.BATTLESHIP.getStatus(), offset);
+                getPlayerBoard().setCharacterAtPosition(PositionStatus.BATTLESHIP.getStatus(), offset);
               }
             }
           case 5:
@@ -164,13 +165,13 @@ public class Player {
               for(int i=0; i<ship.getLength(); i++) {
                 Position offset = new Position(shipPlace.getPosition().getRow(),
                     shipPlace.getPosition().getColumn() + i);
-                getPlayerBoard().set(PositionStatus.CARRIER.getStatus(), offset);
+                getPlayerBoard().setCharacterAtPosition(PositionStatus.CARRIER.getStatus(), offset);
               }
             }else{
               for (int i = 0; i < ship.getLength(); i++) {
                 Position offset = new Position(shipPlace.getPosition().getRow() + i,
                     shipPlace.getPosition().getColumn());
-                getPlayerBoard().set(PositionStatus.CARRIER.getStatus(), offset);
+                getPlayerBoard().setCharacterAtPosition(PositionStatus.CARRIER.getStatus(), offset);
               }
             }
         }
@@ -179,43 +180,43 @@ public class Player {
   }
 
   public void playerShoots(Position position, Player opponent){
-    if(opponent.getPlayerBoard().get(position)==PositionStatus.PATROL_BOAT.getStatus()){
-      getPlayerBoard().set(PositionStatus.HIT.getStatus(), position);
-      opponent.getPlayerBoard().set(PositionStatus.HIT.getStatus(), position);
+    if(opponent.getPlayerBoard().getCharacterAtPosition(position)==PositionStatus.PATROL_BOAT.getStatus()){
+      getPlayerBoard().setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
+      opponent.getPlayerBoard().setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
       opponent.decrementShip(ShipType.PATROL_BOAT);
       System.out.println("HIT!");
     }
-    else if(opponent.getPlayerBoard().get(position)==PositionStatus.SUBMARINE.getStatus()){
-      getPlayerBoard().set(PositionStatus.HIT.getStatus(), position);
-      opponent.getPlayerBoard().set(PositionStatus.HIT.getStatus(), position);
+    else if(opponent.getPlayerBoard().getCharacterAtPosition(position)==PositionStatus.SUBMARINE.getStatus()){
+      getPlayerBoard().setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
+      opponent.getPlayerBoard().setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
       opponent.decrementShip(ShipType.SUBMARINE);
       System.out.println("HIT!");
     }
-    else if(opponent.getPlayerBoard().get(position)==PositionStatus.DESTROYER.getStatus()){
-      getPlayerBoard().set(PositionStatus.HIT.getStatus(), position);
-      opponent.getPlayerBoard().set(PositionStatus.HIT.getStatus(), position);
+    else if(opponent.getPlayerBoard().getCharacterAtPosition(position)==PositionStatus.DESTROYER.getStatus()){
+      getPlayerBoard().setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
+      opponent.getPlayerBoard().setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
       opponent.decrementShip(ShipType.DESTROYER);
       System.out.println("HIT!");
     }
-    else if(opponent.getPlayerBoard().get(position)==PositionStatus.BATTLESHIP.getStatus()){
-      getPlayerBoard().set(PositionStatus.HIT.getStatus(), position);
-      opponent.getPlayerBoard().set(PositionStatus.HIT.getStatus(), position);
+    else if(opponent.getPlayerBoard().getCharacterAtPosition(position)==PositionStatus.BATTLESHIP.getStatus()){
+      getPlayerBoard().setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
+      opponent.getPlayerBoard().setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
       opponent.decrementShip(ShipType.BATTLESHIP);
       System.out.println("HIT!");
     }
-    else if(opponent.getPlayerBoard().get(position)==PositionStatus.CARRIER.getStatus()){
-      getPlayerBoard().set(PositionStatus.HIT.getStatus(), position);
-      opponent.getPlayerBoard().set(PositionStatus.HIT.getStatus(), position);
+    else if(opponent.getPlayerBoard().getCharacterAtPosition(position)==PositionStatus.CARRIER.getStatus()){
+      getPlayerBoard().setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
+      opponent.getPlayerBoard().setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
       opponent.decrementShip(ShipType.CARRIER);
       System.out.println("HIT!");
     }
-    else if(opponent.getPlayerBoard().get(position)==PositionStatus.WATER.getStatus()){
-      getPlayerBoard().set(PositionStatus.HIT.getStatus(), position);
-      opponent.getPlayerBoard().set(PositionStatus.HIT.getStatus(), position);
+    else if(opponent.getPlayerBoard().getCharacterAtPosition(position)==PositionStatus.WATER.getStatus()){
+      getPlayerBoard().setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
+      opponent.getPlayerBoard().setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
       System.out.println("Miss!");
     }
-    else if(opponent.getPlayerBoard().get(position)==PositionStatus.MISS.getStatus()
-        || opponent.getPlayerBoard().get(position)==PositionStatus.HIT.getStatus()){
+    else if(opponent.getPlayerBoard().getCharacterAtPosition(position)==PositionStatus.MISS.getStatus()
+        || opponent.getPlayerBoard().getCharacterAtPosition(position)==PositionStatus.HIT.getStatus()){
       throw new IllegalArgumentException("Cannot fire at a space previously fired upon.");
     }
   }

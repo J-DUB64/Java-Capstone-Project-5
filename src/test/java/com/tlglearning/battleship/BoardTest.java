@@ -5,7 +5,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import com.tlglearning.battleship.Ship.Direction;
+
+import com.tlglearning.battleship.model.ShipType;
+import com.tlglearning.battleship.model.Board;
+import com.tlglearning.battleship.model.Position;
+import com.tlglearning.battleship.model.Ship;
+import com.tlglearning.battleship.model.Ship.Direction;
 import org.junit.jupiter.api.Test;
 
 public class BoardTest {
@@ -66,7 +71,7 @@ public class BoardTest {
     char[][] matrix = {{'X', 'O', 'X'}, {'O', 'X', 'O'}, {'X', 'O', 'X'}};
     Board board = new Board(matrix);
     Position position = new Position(1, 1);
-    assertEquals('X', board.get(position));
+    assertEquals('X', board.getCharacterAtPosition(position));
   }
 
   @Test
@@ -91,7 +96,7 @@ public class BoardTest {
 
   @Test
   public void placementCoordinatesAvailable_for_CarrierPosition2_throwsIllegalArgumentException() {
-    BOARD_LENGTH_10.set('☐',POSITION_2);
+    BOARD_LENGTH_10.setCharacterAtPosition('☐',POSITION_2);
 
     Ship carrier = new Ship(ShipType.CARRIER, POSITION_2, Direction.VERTICAL);
 
