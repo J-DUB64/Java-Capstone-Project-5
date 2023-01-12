@@ -1,5 +1,6 @@
 package com.tlglearning.battleship;
 
+import com.tlglearning.battleship.model.PositionStatus;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 public class PositionStatusTest {
