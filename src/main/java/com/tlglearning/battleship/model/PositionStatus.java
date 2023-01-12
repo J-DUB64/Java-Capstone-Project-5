@@ -1,11 +1,11 @@
 package com.tlglearning.battleship.model;
 
 public enum PositionStatus {
-  CARRIER('\u2610'),
-  BATTLESHIP('\u2610'),
-  DESTROYER('\u2610'),
-  SUBMARINE('\u2610'),
-  PATROL_BOAT('\u2610'),
+  CARRIER('C'),
+  BATTLESHIP('B'),
+  DESTROYER('D'),
+  SUBMARINE('S'),
+  PATROL_BOAT('P'),
   WATER('~'),
   HIT('\u2612'),
   MISS('\u2638');
