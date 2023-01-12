@@ -48,8 +48,12 @@ public class Ship {
     this.direction = direction;
   }
 
-  public void setHealthPoints(int healthPoints) {
-    this.healthPoints = healthPoints;
+  public void decrementHealthPoints() {
+    this.healthPoints = healthPoints-1;
+  }
+
+  public int getHealthPoints() {
+    return healthPoints;
   }
 
   // Other methods for the Ship class
@@ -74,8 +78,8 @@ public class Ship {
       public int getColumnOffset() {
         return columnOffset;
       }
-    }
 
+    }
 }
 
 

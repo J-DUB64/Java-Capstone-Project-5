@@ -19,7 +19,6 @@ class PlayerTest {
     }
   };
 
-
   @Test
   void getName_returnsPlayerName() {
     assertEquals(PLAYER_1_NAME, PLAYER_1.getName());
@@ -28,11 +27,6 @@ class PlayerTest {
   @Test
   void getPlayerBoard_returnsPlayerBoard() {
     assertEquals(PLAYER_1_BOARD, PLAYER_1.getPlayerBoard());
-  }
-
-  @Test
-  void getShipsRemaining_returnsShipsRemaining() {
-    assertEquals(PLAYER_1_BOARD_REMAINING_SHIPS, PLAYER_1.getShipsRemaining());
   }
 
   @Test
