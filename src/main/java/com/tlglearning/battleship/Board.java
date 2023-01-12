@@ -9,6 +9,7 @@ public class Board {
   public final int length; //one variable for rows = columns = 10 [10x10 matrix]
   public char[][] board; // 2 Dimensional array called board
   public int numShips = 0; //counter for the number of ships
+  private boolean positionStatusChecked = false;
 
   // Constructors
   //constructor that initializes a new instance with a given length and creates a new board using the initBoard() method.
@@ -64,20 +65,34 @@ public class Board {
     return true;
   }
 
-  //method that checks whether there is enough space on the board for the given ship to be placed, based on the length of the ship and its Direction
-  public boolean spaceAvailable(
-      Ship ship) {  //thereIsSpace method return type boolean that takes a Ship object as an argument.
-    int shipLength = ship.getLength(); //  local variable l and assigns it the length of the ship
-    int row = ship.getPosition().getRow(); //assigns the row coordinate of the position of the ship
-    int column = ship.getPosition()
-        .getColumn(); //assigns the column coordinate of the position of the ship object
+  public boolean placementCoordinatesInBoardBoundaries(Ship ship) {
+    int shipLength = ship.getLength();
+    int row = ship.getPosition().getRow();
+    int column = ship.getPosition().getColumn();
     for (int i = 0; i < shipLength; i++) {
       int checkRow = row + i * ship.getDirection().getRowOffset();
       int checkColumn = column + i * ship.getDirection().getColumnOffset();
-      if (checkRow < 0 || checkRow >= board.length || checkColumn < 0
-          || checkColumn >= board[0].length ||
-          board[checkRow][checkColumn] != PositionStatus.WATER.getStatus()) {
-        throw new IllegalArgumentException("Can not place here");
+      boolean coordinatesOutOfBounds = (checkRow < 0 || checkRow >= board.length || checkColumn < 0
+          || checkColumn >= board[0].length);
+      if (coordinatesOutOfBounds) {
+        throw new IllegalArgumentException(
+            "Ship cannot be placed here— the calculated space needed to place this ship goes out of bounds.");
+      }
+    }
+    return true;
+  }
+
+  public boolean placementCoordinatesAvailable(Ship ship) {
+    int shipLength = ship.getLength();
+    int row = ship.getPosition().getRow();
+    int column = ship.getPosition().getColumn();
+    for (int i = 0; i < shipLength; i++) {
+      int checkRow = row + i * ship.getDirection().getRowOffset();
+      int checkColumn = column + i * ship.getDirection().getColumnOffset();
+      boolean positionStatusNotWater =  board[checkRow][checkColumn] != PositionStatus.WATER.getStatus();
+      if (positionStatusNotWater) {
+        throw new IllegalArgumentException(
+            "Ship cannot be placed here— the calculated space needed to place this ship is not all water.");
       }
     }
     return true;
