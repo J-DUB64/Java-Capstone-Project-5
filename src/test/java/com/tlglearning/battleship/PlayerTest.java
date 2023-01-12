@@ -2,7 +2,12 @@ package com.tlglearning.battleship;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.tlglearning.battleship.Ship.Direction;
+import com.tlglearning.battleship.model.ShipType;
+import com.tlglearning.battleship.model.Board;
+import com.tlglearning.battleship.model.Player;
+import com.tlglearning.battleship.model.Position;
+import com.tlglearning.battleship.model.Ship;
+import com.tlglearning.battleship.model.Ship.Direction;
 import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
 
