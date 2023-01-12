@@ -16,7 +16,6 @@ public class Ship {
     this.healthPoints = shipType.getLength();
   }
 
-
     // Public methods to allow other parts of the program to access the length, position, and direction of the ship
 
 

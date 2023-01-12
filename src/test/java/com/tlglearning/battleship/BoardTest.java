@@ -2,20 +2,18 @@ package com.tlglearning.battleship;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
-
-import com.tlglearning.battleship.Board;
-import com.tlglearning.battleship.Position;
-import com.tlglearning.battleship.Ship;
 import com.tlglearning.battleship.Ship.Direction;
-import com.tlglearning.battleship.ShipType;
 import org.junit.jupiter.api.Test;
 
 public class BoardTest {
+
+  public static Board BOARD_LENGTH_10 = new Board(10);
+  public static final Position POSITION_1 = new Position(6, 9);
+  public static final Position POSITION_2 = new Position(3, 3);
+  public static final Position POSITION_3 = new Position(1, 1);
 
   @Test
   public void testBoardConstructorWithLength() {
@@ -72,35 +70,44 @@ public class BoardTest {
   }
 
   @Test
-  public void testShipPlacement() {
-    Board board = new Board(5);
-    Position position1 = new Position(0, 0);
-    Position position2 = new Position(0, 0);
-    Position position3 = new Position(0, 3);
-    Position position4 = new Position(0, 0);
-    Position position5 = new Position(2, 0);
-    Position position6 = new Position(4, 4);
-    Position position7 = new Position(4, 3);
-    Position position8 = new Position(0, 0);
+  public void placementCoordinatesInBoardBoundaries_for_CarrierPosition1_throwsIllegalArgumentException()
+      throws IllegalArgumentException {
+    Ship carrier = new Ship(ShipType.CARRIER, POSITION_1, Direction.VERTICAL);
+    Exception exception = assertThrows(IllegalArgumentException.class,
+        () -> BOARD_LENGTH_10.placementCoordinatesInBoardBoundaries(carrier));
 
-    Ship ship1 = new Ship(ShipType.DESTROYER, position1, Direction.HORIZONTAL);
-    Ship ship2 = new Ship(ShipType.CARRIER, position2, Direction.VERTICAL);
-    Ship ship3 = new Ship(ShipType.CARRIER, position3, Direction.HORIZONTAL);
-    Ship ship4 = new Ship(ShipType.BATTLESHIP, position4, Direction.VERTICAL);
-    Ship ship5 = new Ship(ShipType.BATTLESHIP, position5, Direction.HORIZONTAL);
-    Ship ship6 = new Ship(ShipType.DESTROYER, position6, Direction.VERTICAL);
-    Ship ship7 = new Ship(ShipType.DESTROYER, position7, Direction.HORIZONTAL);
-    Ship ship8 = new Ship(ShipType.DESTROYER, position8, Direction.HORIZONTAL);
-    try {
-      assertTrue(board.spaceAvailable(ship1));
-      assertTrue(board.spaceAvailable(ship2));
-      assertTrue(board.spaceAvailable(ship3));
-      assertTrue(board.spaceAvailable(ship4));
-      assertTrue(board.spaceAvailable(ship5));
-      assertFalse(board.spaceAvailable(ship6));
-      assertFalse(board.spaceAvailable(ship7));
-    } catch (IllegalArgumentException e) {
-      System.out.println("ship placement failed: " + e.getMessage());
-    }
+    String expectedMessage = "Ship cannot be placed here— the calculated space needed to place this ship goes out of bounds.";
+    String actualMessage = exception.getMessage();
+
+    assertTrue(actualMessage.contains(expectedMessage));
+  }
+
+  @Test
+  public void placementCoordinatesInBoardBoundaries_for_CarrierPosition2_returnsTrue() {
+    Ship carrier = new Ship(ShipType.CARRIER, POSITION_2, Direction.VERTICAL);
+
+    assertTrue(BOARD_LENGTH_10.placementCoordinatesInBoardBoundaries(carrier));
+  }
+
+  @Test
+  public void placementCoordinatesAvailable_for_CarrierPosition2_throwsIllegalArgumentException() {
+    BOARD_LENGTH_10.set('☐',POSITION_2);
+
+    Ship carrier = new Ship(ShipType.CARRIER, POSITION_2, Direction.VERTICAL);
+
+    Exception exception = assertThrows(IllegalArgumentException.class,
+        () -> BOARD_LENGTH_10.placementCoordinatesAvailable(carrier));
+
+    String expectedMessage = "Ship cannot be placed here— the calculated space needed to place this ship is not all water.";
+    String actualMessage = exception.getMessage();
+
+    assertTrue(actualMessage.contains(expectedMessage));
+  }
+
+  @Test
+  public void placementCoordinatesAvailable_for_CarrierPosition2_returnsTrue() {
+    Ship carrier = new Ship(ShipType.CARRIER, POSITION_2, Direction.VERTICAL);
+
+    assertTrue(BOARD_LENGTH_10.placementCoordinatesInBoardBoundaries(carrier));
   }
 }
