@@ -1,4 +1,4 @@
-package com.tlglearning.battleship;
+package com.tlglearning.battleship.model;
 
 public enum ShipType {
   CARRIER(5),
