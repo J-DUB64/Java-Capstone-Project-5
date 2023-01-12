@@ -2,7 +2,7 @@ package com.tlglearning.battleship;
 
 import com.sun.source.doctree.HiddenTree;
 
-public class Position {  // Private variables to store the row and column coordinates of the position
+public class Position {
 
   private final int row;
   private final int column;
@@ -17,13 +17,13 @@ public class Position {  // Private variables to store the row and column coordi
   }
 
   public Position(int row,
-      int column) {  // Constructor to initialize the row and column coordinates of the position
+      int column) {
     this.row = row;
     this.column = column;
-    this.status = PositionStatus.WATER; // Initialize the status field
+    this.status = PositionStatus.WATER;
   }
 
-  // Public methods to allow other parts of the program to access the row and column coordinates of the position
+
   public int getRow() {
     return row;
   }
@@ -33,7 +33,7 @@ public class Position {  // Private variables to store the row and column coordi
   }
 
 
-  // Modify the at method to return the status field of the position object
+
   public char at(Position position) {
     return position.status.getStatus();
 
