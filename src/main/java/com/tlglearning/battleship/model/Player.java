@@ -10,7 +10,7 @@ public class Player {
 
   private final String name;
   private final Board playerBoard;
-  private ArrayList<Ship> playerShipInventory = new ArrayList<>();
+  private ArrayList<Ship> playerShipInventory;
   private PrintStream output;
   private BufferedReader input;
   private boolean rowCoordinateEntryCompleted = false;
@@ -21,6 +21,12 @@ public class Player {
   public Player(String name, Board playerBoard) {
     this.name = name;
     this.playerBoard = playerBoard;
+    playerShipInventory = new ArrayList<Ship>();
+    playerShipInventory.add(new Ship(ShipType.PATROL_BOAT,null,null));
+    playerShipInventory.add(new Ship(ShipType.SUBMARINE,null,null));
+    playerShipInventory.add(new Ship(ShipType.DESTROYER,null,null));
+    playerShipInventory.add(new Ship(ShipType.BATTLESHIP,null,null));
+    playerShipInventory.add(new Ship(ShipType.CARRIER,null,null));
   }
 
 
@@ -45,18 +51,15 @@ public class Player {
   };
 
   public void placePlayerShips() throws IOException {
-    for(ShipType ship : ShipType.values()){
-      Ship shipPlace = new Ship(null , null, null);
-      shipPlace.setShipType(ship);
-
-      int row;
-      int column;
+    for(Ship ship : playerShipInventory){
+      int row = 0;
+      int column=0;
+      String input = null;
 
       // Handling for row selection input
       do {
         System.out.printf(
-            "What row do you want the %s that is %d spaces long, to start on?", ship.name(), ship.getLength());
-        String input = null;
+            "What row do you want the %s that is %d spaces long, to start on?", ship.getShipType(), ship.getLength());
         try {
           input = this.input.readLine().strip();
           row = Integer.parseInt(input);
@@ -72,16 +75,15 @@ public class Player {
       // Handling for direction selection input
       do {
         System.out.printf(
-            "Do you want your %s to be Vertical or Horizontal? (V/h)", ship.name());
-        String input = null;
+            "Do you want your %s to be Vertical or Horizontal? (V/h)", ship.getShipType());
         try {
           input = this.input.readLine().strip().toLowerCase();
           if (input.charAt(0) == 'v') {
-            shipPlace.setDirection(Direction.VERTICAL);
+            ship.setDirection(Direction.VERTICAL);
             directionSelectionCompleted = true;
           }
           else if (input.charAt(0) == 'h'){
-            shipPlace.setDirection(Direction.HORIZONTAL);
+            ship.setDirection(Direction.HORIZONTAL);
             directionSelectionCompleted = true;
           }
         } catch (IllegalArgumentException e) {
@@ -92,8 +94,7 @@ public class Player {
       // Handling for column selection input
       do {
         System.out.printf(
-            "What column do you want the %s that is %d spaces long, to start on?", ship.name(), ship.getLength());
-        String input = null;
+            "What column do you want the %s that is %d spaces long, to start on?", ship.getShipType(), ship.getLength());
         try {
           input = this.input.readLine().strip();
           column = Integer.parseInt(input);
@@ -106,71 +107,73 @@ public class Player {
         }
       } while (!columnCoordinateEntryCompleted);
 
+      Position placement = new Position(row, column);
+      ship.setPosition(placement);
+
       // if spaceAvailable method passes, places ship & changes position status to match shipType
       if(
-          getPlayerBoard().placementCoordinatesInBoardBoundaries(shipPlace)
-              && getPlayerBoard().placementCoordinatesAvailable(shipPlace))
+          getPlayerBoard().placementCoordinatesInBoardBoundaries(ship)
+              && getPlayerBoard().placementCoordinatesAvailable(ship))
       {
-        playerShipInventory.add(shipPlace);
         switch (ship.getLength()) {
           case 1:
-            getPlayerBoard().setCharacterAtPosition(PositionStatus.PATROL_BOAT.getStatus(), shipPlace.getPosition());
+            getPlayerBoard().setCharacterAtPosition(PositionStatus.PATROL_BOAT.getStatus(), ship.getPosition());
             break;
           case 2:
-            if (shipPlace.getDirection() == Direction.VERTICAL) {
+            if (ship.getDirection() == Direction.VERTICAL) {
               for(int i=0; i<ship.getLength(); i++){
-                Position offset = new Position(shipPlace.getPosition().getRow(),
-                    shipPlace.getPosition().getColumn()+i);
+                Position offset = new Position(ship.getPosition().getRow(),
+                    ship.getPosition().getColumn()+i);
                 getPlayerBoard().setCharacterAtPosition(PositionStatus.SUBMARINE.getStatus(), offset);
               }
             } else {
               for (int i = 0; i < ship.getLength(); i++) {
-                Position offset = new Position(shipPlace.getPosition().getRow() + i,
-                    shipPlace.getPosition().getColumn());
+                Position offset = new Position(ship.getPosition().getRow() + i,
+                    ship.getPosition().getColumn());
                 getPlayerBoard().setCharacterAtPosition(PositionStatus.SUBMARINE.getStatus(), offset);
               }
             }
             break;
           case 3:
-            if (shipPlace.getDirection() == Direction.VERTICAL) {
+            if (ship.getDirection() == Direction.VERTICAL) {
               for(int i=0; i<ship.getLength(); i++) {
-                Position offset = new Position(shipPlace.getPosition().getRow(),
-                    shipPlace.getPosition().getColumn() + i);
+                Position offset = new Position(ship.getPosition().getRow(),
+                    ship.getPosition().getColumn() + i);
                 getPlayerBoard().setCharacterAtPosition(PositionStatus.DESTROYER.getStatus(), offset);
               }
             }else{
               for (int i = 0; i < ship.getLength(); i++) {
-                Position offset = new Position(shipPlace.getPosition().getRow() + i,
-                    shipPlace.getPosition().getColumn());
+                Position offset = new Position(ship.getPosition().getRow() + i,
+                    ship.getPosition().getColumn());
                 getPlayerBoard().setCharacterAtPosition(PositionStatus.DESTROYER.getStatus(), offset);
               }
             }
             break;
           case 4:
-            if (shipPlace.getDirection() == Direction.VERTICAL) {
+            if (ship.getDirection() == Direction.VERTICAL) {
               for(int i=0; i<ship.getLength(); i++) {
-                Position offset = new Position(shipPlace.getPosition().getRow(),
-                    shipPlace.getPosition().getColumn() + i);
+                Position offset = new Position(ship.getPosition().getRow(),
+                    ship.getPosition().getColumn() + i);
                 getPlayerBoard().setCharacterAtPosition(PositionStatus.BATTLESHIP.getStatus(), offset);
               }
             }else{
               for (int i = 0; i < ship.getLength(); i++) {
-                Position offset = new Position(shipPlace.getPosition().getRow() + i,
-                    shipPlace.getPosition().getColumn());
+                Position offset = new Position(ship.getPosition().getRow() + i,
+                    ship.getPosition().getColumn());
                 getPlayerBoard().setCharacterAtPosition(PositionStatus.BATTLESHIP.getStatus(), offset);
               }
             }
           case 5:
-            if (shipPlace.getDirection() == Direction.VERTICAL) {
+            if (ship.getDirection() == Direction.VERTICAL) {
               for(int i=0; i<ship.getLength(); i++) {
-                Position offset = new Position(shipPlace.getPosition().getRow(),
-                    shipPlace.getPosition().getColumn() + i);
+                Position offset = new Position(ship.getPosition().getRow(),
+                    ship.getPosition().getColumn() + i);
                 getPlayerBoard().setCharacterAtPosition(PositionStatus.CARRIER.getStatus(), offset);
               }
             }else{
               for (int i = 0; i < ship.getLength(); i++) {
-                Position offset = new Position(shipPlace.getPosition().getRow() + i,
-                    shipPlace.getPosition().getColumn());
+                Position offset = new Position(ship.getPosition().getRow() + i,
+                    ship.getPosition().getColumn());
                 getPlayerBoard().setCharacterAtPosition(PositionStatus.CARRIER.getStatus(), offset);
               }
             }
@@ -211,8 +214,8 @@ public class Player {
       System.out.println("HIT!");
     }
     else if(opponent.getPlayerBoard().getCharacterAtPosition(position)==PositionStatus.WATER.getStatus()){
-      getPlayerBoard().setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
-      opponent.getPlayerBoard().setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
+      getPlayerBoard().setCharacterAtPosition(PositionStatus.MISS.getStatus(), position);
+      opponent.getPlayerBoard().setCharacterAtPosition(PositionStatus.MISS.getStatus(), position);
       System.out.println("Miss!");
     }
     else if(opponent.getPlayerBoard().getCharacterAtPosition(position)==PositionStatus.MISS.getStatus()

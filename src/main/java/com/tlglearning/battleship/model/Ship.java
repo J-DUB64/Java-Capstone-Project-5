@@ -52,6 +52,14 @@ public class Ship {
     return healthPoints;
   }
 
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || getClass() != obj.getClass()) return false;
+    Ship ship = (Ship) obj;
+    return shipType == ship.shipType;
+  }
+
   // Other methods for the Ship class
 
     // Enum to represent the possible directions that a ship can be placed on the board
