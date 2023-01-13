@@ -7,8 +7,8 @@ public enum PositionStatus {
   SUBMARINE('S'),
   PATROL_BOAT('P'),
   WATER('~'),
-  HIT('\u2612'),
-  MISS('\u2638');
+  HIT('☸'),
+  MISS('☒');
 
   private final char status;
 
