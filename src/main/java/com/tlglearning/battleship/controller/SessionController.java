@@ -28,18 +28,32 @@ public class SessionController {
       Board computerBoard_for_trackingOpponent = new Board(10);
       // create instance of player (not-Computer)
       String humanPlayerName = playerNameEntry();
-      Player humanPlayer = new Player(humanPlayerName, playerOneBoard_personal);
+      Player humanPlayer = new Player(humanPlayerName, playerOneBoard_personal, input);
       // create instance of player (Computer)
-      Player computerPlayer = new Player(computerName, computerBoard_personal);
+      Player computerPlayer = new Player(computerName, computerBoard_personal, input);
       // place ships
-      humanPlayer.placePlayerShips();
+      humanPlayer.placePlayerShips(playerOneBoard_personal);
+      humanPlayer.printBoard(playerOneBoard_personal);
       /* ToDo: do we need to add a field in Player 'isComputer'
           and if this field is true, then skip to an else statement that
           contains Math.Random() logic to set ship placement.
        */
-      computerPlayer.placePlayerShips();
+      computerPlayer.placePlayerShips(computerBoard_personal);
       // run playerShoots for humanPlayer & take turns until playerShipInventory is empty for a player
-//      humanPlayer.playerShoots(, computerPlayer);
+      do {
+        humanPlayer.printBoard(playerOneBoard_for_trackingOpponent);
+        humanPlayer.playerShoots(playerOneBoard_for_trackingOpponent, computerPlayer, computerBoard_personal);
+        humanPlayer.printBoard(playerOneBoard_for_trackingOpponent);
+
+        computerPlayer.playerShoots(computerBoard_for_trackingOpponent, humanPlayer, playerOneBoard_personal);
+        humanPlayer.printBoard(playerOneBoard_personal);
+      } while (!humanPlayer.getPlayerShipInventory().isEmpty() | !computerPlayer.getPlayerShipInventory().isEmpty());
+
+      if (humanPlayer.getPlayerShipInventory().isEmpty()) {
+        System.out.print("You have lost to the Computer! Better luck next time, " + humanPlayerName + "!");
+      } else if (computerPlayer.getPlayerShipInventory().isEmpty()){
+        System.out.print("Congratulations " + humanPlayerName + ", you've won!");
+      }
 
     } while (continuePlay());
   }
@@ -52,13 +66,6 @@ public class SessionController {
         .toLowerCase();
     return input;
   }
-
-//  private Position selectedCoordinates() throws IOException {
-//    System.out.print("Where should we strike? Please enter desired coordinates (Row,Column): ");
-//    String input = this.input
-//        .readLine();
-//    return new Position(1,2);
-//  }
 
   private boolean continuePlay() throws IOException {
     System.out.print("Do you want to play again (Y/n)? ");
