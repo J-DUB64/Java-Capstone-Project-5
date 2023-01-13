@@ -76,6 +76,7 @@ public class Player {
   }
 
   public void placePlayerShips(Board playerBoard) throws IOException {
+    ArrayList<Ship> penaltyShips = new ArrayList<Ship>();
     for(Ship ship : playerShipInventory){
       int row = 0;
       int column=0;
@@ -205,10 +206,15 @@ public class Player {
                 }
               }
           }
-        }else{
-          System.out.printf("Penalty! You cannot place a ship out of bounds or on another ship. Your %s has been lost at sea!", ship.getShipType());
-          playerShipInventory.remove(ship);
+        }else {
+          System.out.printf(
+              "Penalty! You cannot place a ship out of bounds or on another ship. Your %s has been lost at sea!",
+              ship.getShipType());
+          penaltyShips.add(ship);
         }
+    }
+    for(Ship penaltyShip : penaltyShips){
+      getPlayerShipInventory().remove(penaltyShip);
     }
   }
 
@@ -300,7 +306,7 @@ public class Player {
       System.out.println("\n");
       int length = board.length;
       String str = "|\t";
-
+      System.out.println("    0 1 2 3 4 5 6 7 8 9");
       for (int i = 0; i < length; i++) {
         for (int j = 0; j < length; j++) {
           str += board.getCharacterAtPosition(new Position(i, j)) + "\t";
