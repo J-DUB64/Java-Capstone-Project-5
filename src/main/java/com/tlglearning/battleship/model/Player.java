@@ -62,7 +62,9 @@ public class Player {
     Ship decrementShip = playerShipInventory.get(index);
     decrementShip.decrementHealthPoints();
     playerShipInventory.removeIf(shipCheck -> shipCheck.getHealthPoints() == 0);
-  };
+  }
+
+  ;
 
   private String rowCoordinateEntry() throws IOException {
     String input = this.input
@@ -90,7 +92,7 @@ public class Player {
 
   public void placePlayerShips(Board playerBoard) throws IOException {
     ArrayList<Ship> penaltyShips = new ArrayList<Ship>();
-    for(Ship ship : playerShipInventory){
+    for (Ship ship : playerShipInventory) {
       int row = 0;
       int column = 0;
       String input = null;
@@ -224,8 +226,9 @@ public class Player {
           System.out.printf(
               "Penalty! You cannot place a ship out of bounds or on another ship. Your %s has been lost at sea!",
               ship.getShipType());
-          playerShipInventory.remove(ship);
+          penaltyShips.add(ship);
         }
+        // THIS IS WHERE THE HUMAN PLAYER ENDS
       } else {
         // COMPUTER DATA -- START
         // Handling for row selection input
@@ -347,14 +350,12 @@ public class Player {
                 }
               }
           }
-        }else {
-          System.out.printf(
-              "Penalty! You cannot place a ship out of bounds or on another ship. Your %s has been lost at sea!",
-              ship.getShipType());
+        } else {
           penaltyShips.add(ship);
         }
+      }
     }
-    for(Ship penaltyShip : penaltyShips){
+    for (Ship penaltyShip : penaltyShips) {
       getPlayerShipInventory().remove(penaltyShip);
     }
   }
@@ -364,79 +365,152 @@ public class Player {
     int column = 0;
     boolean rowCoordinateEntryCompleted = false;
     boolean columnCoordinateEntryCompleted = false;
-
     String input = null;
 
     // Handling for row selection input
-    do {
-      System.out.print(
-          "What row do you want attack? 0-9: ");
-      try {
-        input = this.input.readLine().strip();
-        row = Integer.parseInt(input);
-        // TODO: change the >= to just > after we handle user input handling to -1 in the logic to match matrix indexing
-        if (row >= 0 && row < getPlayerBoard().length) {
-          rowCoordinateEntryCompleted = true;
+    if (!isComputer) {
+      do {
+        System.out.print(
+            "What row do you want attack? 0-9: ");
+        try {
+          input = this.input.readLine().strip();
+          row = Integer.parseInt(input);
+          // TODO: change the >= to just > after we handle user input handling to -1 in the logic to match matrix indexing
+          if (row >= 0 && row < getPlayerBoard().length) {
+            rowCoordinateEntryCompleted = true;
+          }
+        } catch (IllegalArgumentException | IOException e) {
+          System.out.printf("Invalid input: %s%n", input);
         }
-      } catch (IllegalArgumentException | IOException e) {
-        System.out.printf("Invalid input: %s%n", input);
-      }
-    } while (!rowCoordinateEntryCompleted);
+      } while (!rowCoordinateEntryCompleted);
 
-    // Handling for column selection input
-    do {
-      System.out.print(
-          "What column do you want attack? 0-9: ");
-      try {
-        input = this.input.readLine().strip();
-        column = Integer.parseInt(input);
-        // TODO: change the >= to just > after we handle user input handling to -1 in the logic to match matrix indexing
-        if (column >= 0 && column < getPlayerBoard().length) {
-          columnCoordinateEntryCompleted = true;
+      // Handling for column selection input
+      do {
+        System.out.print(
+            "What column do you want attack? 0-9: ");
+        try {
+          input = this.input.readLine().strip();
+          column = Integer.parseInt(input);
+          // TODO: change the >= to just > after we handle user input handling to -1 in the logic to match matrix indexing
+          if (column >= 0 && column < getPlayerBoard().length) {
+            columnCoordinateEntryCompleted = true;
+          }
+        } catch (IllegalArgumentException | IOException e) {
+          System.out.printf("Invalid input: %s%n", input);
         }
-      } catch (IllegalArgumentException | IOException e) {
-        System.out.printf("Invalid input: %s%n", input);
+      } while (!columnCoordinateEntryCompleted);
+
+      Position position = new Position(row, column);
+
+      if (opponentBoard.getCharacterAtPosition(position) == PositionStatus.PATROL_BOAT.getStatus()) {
+        playerBoard.setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
+        opponentBoard.setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
+        opponent.decrementShip(ShipType.PATROL_BOAT);
+        System.out.println("HIT!");
+      } else if (opponentBoard.getCharacterAtPosition(position)
+          == PositionStatus.SUBMARINE.getStatus()) {
+        playerBoard.setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
+        opponentBoard.setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
+        opponent.decrementShip(ShipType.SUBMARINE);
+        System.out.println("HIT!");
+      } else if (opponentBoard.getCharacterAtPosition(position)
+          == PositionStatus.DESTROYER.getStatus()) {
+        playerBoard.setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
+        opponentBoard.setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
+        opponent.decrementShip(ShipType.DESTROYER);
+        System.out.println("HIT!");
+      } else if (opponentBoard.getCharacterAtPosition(position)
+          == PositionStatus.BATTLESHIP.getStatus()) {
+        playerBoard.setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
+        opponentBoard.setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
+        opponent.decrementShip(ShipType.BATTLESHIP);
+        System.out.println("HIT!");
+      } else if (opponentBoard.getCharacterAtPosition(position)
+          == PositionStatus.CARRIER.getStatus()) {
+        playerBoard.setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
+        opponentBoard.setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
+        opponent.decrementShip(ShipType.CARRIER);
+        System.out.println("HIT!");
+      } else if (opponentBoard.getCharacterAtPosition(position) == PositionStatus.WATER.getStatus()) {
+        playerBoard.setCharacterAtPosition(PositionStatus.MISS.getStatus(), position);
+        opponentBoard.setCharacterAtPosition(PositionStatus.MISS.getStatus(), position);
+        System.out.println("MISS!");
+      } else if (opponentBoard.getCharacterAtPosition(position) == PositionStatus.MISS.getStatus()
+          || opponentBoard.getCharacterAtPosition(position) == PositionStatus.HIT.getStatus()) {
+        throw new IllegalArgumentException("Cannot fire at a space previously fired upon.");
       }
-    } while (!columnCoordinateEntryCompleted);
+    } else {
+      // COMPUTER-DATA SHOOTING LOGIC
+      do {
+        Random rand = new Random();
+        try {
+          int randomCompInput = rand.nextInt(1) + 5;
+          row = randomCompInput;
+          // TODO: change the >= to just > after we handle user input handling to -1 in the logic to match matrix indexing
+          if (row >= 0 && row < getPlayerBoard().length) {
+            rowCoordinateEntryCompleted = true;
+          }
+        } catch (IllegalArgumentException e) {
+          System.out.printf("Invalid input: %s%n", input);
+        }
+      } while (!rowCoordinateEntryCompleted);
 
-    Position position = new Position(row, column);
+      // Handling for column selection input
+      do {
+        Random rand = new Random();
+        try {
+          int randomCompInput = rand.nextInt(1) + 5;
+          column = randomCompInput;
+          // TODO: change the >= to just > after we handle user input handling to -1 in the logic to match matrix indexing
+          if (column >= 0 && column < getPlayerBoard().length) {
+            columnCoordinateEntryCompleted = true;
+          }
+        } catch (IllegalArgumentException e) {
+          System.out.printf("Invalid input: %s%n", input);
+        }
+      } while (!columnCoordinateEntryCompleted);
 
-    if (opponentBoard.getCharacterAtPosition(position) == PositionStatus.PATROL_BOAT.getStatus()) {
-      playerBoard.setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
-      opponentBoard.setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
-      opponent.decrementShip(ShipType.PATROL_BOAT);
-      System.out.println("HIT!");
-    } else if (opponentBoard.getCharacterAtPosition(position)
-        == PositionStatus.SUBMARINE.getStatus()) {
-      playerBoard.setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
-      opponentBoard.setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
-      opponent.decrementShip(ShipType.SUBMARINE);
-      System.out.println("HIT!");
-    } else if (opponentBoard.getCharacterAtPosition(position)
-        == PositionStatus.DESTROYER.getStatus()) {
-      playerBoard.setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
-      opponentBoard.setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
-      opponent.decrementShip(ShipType.DESTROYER);
-      System.out.println("HIT!");
-    } else if (opponentBoard.getCharacterAtPosition(position)
-        == PositionStatus.BATTLESHIP.getStatus()) {
-      playerBoard.setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
-      opponentBoard.setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
-      opponent.decrementShip(ShipType.BATTLESHIP);
-      System.out.println("HIT!");
-    } else if (opponentBoard.getCharacterAtPosition(position)
-        == PositionStatus.CARRIER.getStatus()) {
-      playerBoard.setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
-      opponentBoard.setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
-      opponent.decrementShip(ShipType.CARRIER);
-      System.out.println("HIT!");
-    } else if (opponentBoard.getCharacterAtPosition(position) == PositionStatus.WATER.getStatus()) {
-      playerBoard.setCharacterAtPosition(PositionStatus.MISS.getStatus(), position);
-      opponentBoard.setCharacterAtPosition(PositionStatus.MISS.getStatus(), position);
-      System.out.println("MISS!");
-    } else if (opponentBoard.getCharacterAtPosition(position) == PositionStatus.MISS.getStatus()
-        || opponentBoard.getCharacterAtPosition(position) == PositionStatus.HIT.getStatus()) {
-      throw new IllegalArgumentException("Cannot fire at a space previously fired upon.");
+      Position position = new Position(row, column);
+
+      if (opponentBoard.getCharacterAtPosition(position)
+          == PositionStatus.PATROL_BOAT.getStatus()) {
+        playerBoard.setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
+        opponentBoard.setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
+        opponent.decrementShip(ShipType.PATROL_BOAT);
+        System.out.println("HIT!");
+      } else if (opponentBoard.getCharacterAtPosition(position)
+          == PositionStatus.SUBMARINE.getStatus()) {
+        playerBoard.setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
+        opponentBoard.setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
+        opponent.decrementShip(ShipType.SUBMARINE);
+        System.out.println("HIT!");
+      } else if (opponentBoard.getCharacterAtPosition(position)
+          == PositionStatus.DESTROYER.getStatus()) {
+        playerBoard.setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
+        opponentBoard.setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
+        opponent.decrementShip(ShipType.DESTROYER);
+        System.out.println("HIT!");
+      } else if (opponentBoard.getCharacterAtPosition(position)
+          == PositionStatus.BATTLESHIP.getStatus()) {
+        playerBoard.setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
+        opponentBoard.setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
+        opponent.decrementShip(ShipType.BATTLESHIP);
+        System.out.println("HIT!");
+      } else if (opponentBoard.getCharacterAtPosition(position)
+          == PositionStatus.CARRIER.getStatus()) {
+        playerBoard.setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
+        opponentBoard.setCharacterAtPosition(PositionStatus.HIT.getStatus(), position);
+        opponent.decrementShip(ShipType.CARRIER);
+        System.out.println("HIT!");
+      } else if (opponentBoard.getCharacterAtPosition(position)
+          == PositionStatus.WATER.getStatus()) {
+        playerBoard.setCharacterAtPosition(PositionStatus.MISS.getStatus(), position);
+        opponentBoard.setCharacterAtPosition(PositionStatus.MISS.getStatus(), position);
+        System.out.println("MISS!");
+      } else if (opponentBoard.getCharacterAtPosition(position) == PositionStatus.MISS.getStatus()
+          || opponentBoard.getCharacterAtPosition(position) == PositionStatus.HIT.getStatus()) {
+        throw new IllegalArgumentException("Cannot fire at a space previously fired upon.");
+      }
     }
   }
 
