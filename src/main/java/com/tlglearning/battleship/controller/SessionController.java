@@ -2,7 +2,6 @@ package com.tlglearning.battleship.controller;
 
 import com.tlglearning.battleship.model.Board;
 import com.tlglearning.battleship.model.Player;
-import com.tlglearning.battleship.model.Position;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -45,20 +44,24 @@ public class SessionController {
       do {
         System.out.printf("%s's TURN TO SHOOT!", humanPlayer.getName());
         humanPlayer.printBoard(playerOneBoard_for_trackingOpponent);
-        humanPlayer.playerShoots(playerOneBoard_for_trackingOpponent, computerPlayer, computerBoard_personal);
+        humanPlayer.playerShoots(playerOneBoard_for_trackingOpponent, computerPlayer,
+            computerBoard_personal);
         humanPlayer.printBoard(playerOneBoard_for_trackingOpponent);
         System.out.println("-------------------------------------");
-        if(!computerPlayer.getPlayerShipInventory().isEmpty()) {
+        if (!computerPlayer.getPlayerShipInventory().isEmpty()) {
+          System.out.println("COMPUTER'S SHOT!");
           computerPlayer.playerShoots(computerBoard_for_trackingOpponent, humanPlayer,
               playerOneBoard_personal);
           humanPlayer.printBoard(playerOneBoard_personal);
           System.out.println("-------------------------------------");
         }
-      } while(!humanPlayer.getPlayerShipInventory().isEmpty() & !computerPlayer.getPlayerShipInventory().isEmpty());
+      } while (!humanPlayer.getPlayerShipInventory().isEmpty()
+          & !computerPlayer.getPlayerShipInventory().isEmpty());
 
       if (humanPlayer.getPlayerShipInventory().isEmpty()) {
-        System.out.print("You have lost to the Computer! Better luck next time, " + humanPlayerName + "! ");
-      } else if (computerPlayer.getPlayerShipInventory().isEmpty()){
+        System.out.print(
+            "You have lost to the Computer! Better luck next time, " + humanPlayerName + "! ");
+      } else if (computerPlayer.getPlayerShipInventory().isEmpty()) {
         System.out.print("Congratulations " + humanPlayerName + ", you've won! ");
       }
 
@@ -67,11 +70,10 @@ public class SessionController {
 
   private String playerNameEntry() throws IOException {
     System.out.print("Please enter your first name: ");
-    String input = this.input
+    return this.input
         .readLine()
         .strip()
         .toLowerCase();
-    return input;
   }
 
   private boolean continuePlay() throws IOException {
