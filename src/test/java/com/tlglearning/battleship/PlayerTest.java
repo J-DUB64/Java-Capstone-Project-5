@@ -79,15 +79,15 @@ class PlayerTest {
     assertThrows(IllegalArgumentException.class, () -> PLAYER_1.playerShoots(HIT, PLAYER_2));
   }
 
-//  @Test
-//  void getPlayerShipInventory_returnsArrayListWithBattleship() {
-//    PLAYER_1.getPlayerShipInventory().add(
-//        new Ship(ShipType.CARRIER, new Position(1, 3), Direction.HORIZONTAL)
-//    );
-//
-//    assertEquals(
-//        PLAYER_1_SHIP_INVENTORY,
-//        PLAYER_1.getPlayerShipInventory()
-//    );
-//  }
+  @Test
+  void getPlayerShipInventory_returnsArrayListWithBattleship() {
+    PLAYER_1.getPlayerShipInventory().add(
+        new Ship(ShipType.CARRIER, new Position(1, 3), Direction.HORIZONTAL)
+    );
+
+    assertEquals(
+        PLAYER_1_SHIP_INVENTORY,
+        PLAYER_1.getPlayerShipInventory()
+    );
+  }
 }

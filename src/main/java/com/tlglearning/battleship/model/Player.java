@@ -18,9 +18,10 @@ public class Player {
   private boolean directionSelectionCompleted = false;
   private boolean isComputer = false;
 
-  public Player(String name, Board playerBoard) {
+  public Player(String name, Board playerBoard, BufferedReader input) {
     this.name = name;
     this.playerBoard = playerBoard;
+    this.input = input;
     playerShipInventory = new ArrayList<Ship>();
     playerShipInventory.add(new Ship(ShipType.PATROL_BOAT,null,null));
     playerShipInventory.add(new Ship(ShipType.SUBMARINE,null,null));
@@ -50,6 +51,30 @@ public class Player {
     playerShipInventory.removeIf(shipCheck -> shipCheck.getHealthPoints() == 0);
   };
 
+  private String rowCoordinateEntry() throws IOException {
+    String input = this.input
+        .readLine()
+        .strip()
+        .toLowerCase();
+    return input;
+  }
+
+  private String columnCoordinateEntry() throws IOException {
+    String input = this.input
+        .readLine()
+        .strip()
+        .toLowerCase();
+    return input;
+  }
+
+  private String directionEntry() throws IOException {
+    String input = this.input
+        .readLine()
+        .strip()
+        .toLowerCase();
+    return input;
+  }
+
   public void placePlayerShips(Board playerBoard) throws IOException {
     for(Ship ship : playerShipInventory){
       int row = 0;
@@ -57,11 +82,12 @@ public class Player {
       String input = null;
 
       // Handling for row selection input
+      printBoard(playerBoard);
       do {
         System.out.printf(
-            "What row do you want the %s that is %d spaces long, to start on?", ship.getShipType(), ship.getLength());
+            "What row do you want the %s that is %d spaces long, to start on? (0-9)", ship.getShipType(), ship.getLength());
         try {
-          input = this.input.readLine().strip();
+          input = rowCoordinateEntry();
           row = Integer.parseInt(input);
           // TODO: change the >= to just > after we handle user input handling to -1 in the logic to match matrix indexing
           if (row >= 0 && row < playerBoard.length) {
@@ -77,7 +103,7 @@ public class Player {
         System.out.printf(
             "Do you want your %s to be Vertical or Horizontal? (V/h)", ship.getShipType());
         try {
-          input = this.input.readLine().strip().toLowerCase();
+          input = directionEntry();
           if (input.charAt(0) == 'v') {
             ship.setDirection(Direction.VERTICAL);
             directionSelectionCompleted = true;
@@ -94,9 +120,9 @@ public class Player {
       // Handling for column selection input
       do {
         System.out.printf(
-            "What column do you want the %s that is %d spaces long, to start on?", ship.getShipType(), ship.getLength());
+            "What column do you want the %s that is %d spaces long, to start on? (0-9)", ship.getShipType(), ship.getLength());
         try {
-          input = this.input.readLine().strip();
+          input = columnCoordinateEntry();
           column = Integer.parseInt(input);
           // TODO: change the >= to just > after we handle user input handling to -1 in the logic to match matrix indexing
           if (column >= 0 && column < playerBoard.length) {
@@ -262,6 +288,24 @@ public class Player {
     else if(opponentBoard.getCharacterAtPosition(position)==PositionStatus.MISS.getStatus()
         || opponentBoard.getCharacterAtPosition(position)==PositionStatus.HIT.getStatus()){
       throw new IllegalArgumentException("Cannot fire at a space previously fired upon.");
+    }
+  }
+
+  public void printBoard(Board board) {
+    try {
+      System.out.println("\n");
+      int length = board.length;
+      String str = "|\t";
+
+      for (int i = 0; i < length; i++) {
+        for (int j = 0; j < length; j++) {
+          str += board.getCharacterAtPosition(new Position(i, j)) + "\t";
+        }
+        System.out.println(i + str + "|");
+        str = "|\t";
+      }
+    } catch (Exception e) {
+      System.out.println("Empty Board being passed in!");
     }
   }
 
