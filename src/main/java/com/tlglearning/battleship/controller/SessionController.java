@@ -41,12 +41,14 @@ public class SessionController {
       computerPlayer.placePlayerShips(computerBoard_personal);
       // run playerShoots for humanPlayer & take turns until playerShipInventory is empty for a player
       do {
+        System.out.printf("%s's TURN TO SHOOT!", humanPlayer.getName());
         humanPlayer.printBoard(playerOneBoard_for_trackingOpponent);
         humanPlayer.playerShoots(playerOneBoard_for_trackingOpponent, computerPlayer, computerBoard_personal);
         humanPlayer.printBoard(playerOneBoard_for_trackingOpponent);
-
+        System.out.println("-------------------------------------");
         computerPlayer.playerShoots(computerBoard_for_trackingOpponent, humanPlayer, playerOneBoard_personal);
         humanPlayer.printBoard(playerOneBoard_personal);
+        System.out.println("-------------------------------------");
       } while (!humanPlayer.getPlayerShipInventory().isEmpty() | !computerPlayer.getPlayerShipInventory().isEmpty());
 
       if (humanPlayer.getPlayerShipInventory().isEmpty()) {

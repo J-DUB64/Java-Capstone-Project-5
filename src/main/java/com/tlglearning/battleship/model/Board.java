@@ -66,8 +66,7 @@ public class Board {
       boolean coordinatesOutOfBounds = (checkRow < 0 || checkRow >= board.length || checkColumn < 0
           || checkColumn >= board[0].length);
       if (coordinatesOutOfBounds) {
-        throw new IllegalArgumentException(
-            "Ship cannot be placed here— the calculated space needed to place this ship goes out of bounds.");
+        return false;
       }
     }
     return true;
@@ -82,8 +81,7 @@ public class Board {
       int checkColumn = column + i * ship.getDirection().getColumnOffset();
       boolean positionStatusNotWater =  board[checkRow][checkColumn] != PositionStatus.WATER.getStatus();
       if (positionStatusNotWater) {
-        throw new IllegalArgumentException(
-            "Ship cannot be placed here— the calculated space needed to place this ship is not all water.");
+        return false;
       }
     }
     return true;

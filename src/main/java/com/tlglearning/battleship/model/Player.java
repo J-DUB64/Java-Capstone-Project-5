@@ -83,128 +83,132 @@ public class Player {
 
       // Handling for row selection input
       printBoard(playerBoard);
-      do {
-        System.out.printf(
-            "What row do you want the %s that is %d spaces long, to start on? (0-9)", ship.getShipType(), ship.getLength());
-        try {
-          input = rowCoordinateEntry();
-          row = Integer.parseInt(input);
-          // TODO: change the >= to just > after we handle user input handling to -1 in the logic to match matrix indexing
-          if (row >= 0 && row < playerBoard.length) {
-            rowCoordinateEntryCompleted = true;
-          }
-        } catch (IllegalArgumentException e) {
-          System.out.printf("Invalid input: %s%n", input);
-        }
-      } while (!rowCoordinateEntryCompleted);
-
-      // Handling for direction selection input
-      do {
-        System.out.printf(
-            "Do you want your %s to be Vertical or Horizontal? (V/h)", ship.getShipType());
-        try {
-          input = directionEntry();
-          if (input.charAt(0) == 'v') {
-            ship.setDirection(Direction.VERTICAL);
-            directionSelectionCompleted = true;
-          }
-          else if (input.charAt(0) == 'h'){
-            ship.setDirection(Direction.HORIZONTAL);
-            directionSelectionCompleted = true;
-          }
-        } catch (IllegalArgumentException e) {
-          System.out.printf("Invalid input: %s%n", input);
-        }
-      } while (!directionSelectionCompleted);
-
-      // Handling for column selection input
-      do {
-        System.out.printf(
-            "What column do you want the %s that is %d spaces long, to start on? (0-9)", ship.getShipType(), ship.getLength());
-        try {
-          input = columnCoordinateEntry();
-          column = Integer.parseInt(input);
-          // TODO: change the >= to just > after we handle user input handling to -1 in the logic to match matrix indexing
-          if (column >= 0 && column < playerBoard.length) {
-            columnCoordinateEntryCompleted = true;
-          }
-        } catch (IllegalArgumentException e) {
-          System.out.printf("Invalid input: %s%n", input);
-        }
-      } while (!columnCoordinateEntryCompleted);
-
-      Position placement = new Position(row, column);
-      ship.setPosition(placement);
-
-      // if spaceAvailable method passes, places ship & changes position status to match shipType
-      if(
-          playerBoard.placementCoordinatesInBoardBoundaries(ship)
-              && playerBoard.placementCoordinatesAvailable(ship))
-      {
-        switch (ship.getLength()) {
-          case 1:
-            playerBoard.setCharacterAtPosition(PositionStatus.PATROL_BOAT.getStatus(), ship.getPosition());
-            break;
-          case 2:
-            if (ship.getDirection() == Direction.VERTICAL) {
-              for(int i=0; i<ship.getLength(); i++){
-                Position offset = new Position(ship.getPosition().getRow(),
-                    ship.getPosition().getColumn()+i);
-                playerBoard.setCharacterAtPosition(PositionStatus.SUBMARINE.getStatus(), offset);
-              }
-            } else {
-              for (int i = 0; i < ship.getLength(); i++) {
-                Position offset = new Position(ship.getPosition().getRow() + i,
-                    ship.getPosition().getColumn());
-                playerBoard.setCharacterAtPosition(PositionStatus.SUBMARINE.getStatus(), offset);
-              }
+        do {
+          System.out.printf(
+              "What row do you want the %s that is %d spaces long, to start on? (0-9): ", ship.getShipType(), ship.getLength());
+          try {
+            input = rowCoordinateEntry();
+            row = Integer.parseInt(input);
+            // TODO: change the >= to just > after we handle user input handling to -1 in the logic to match matrix indexing
+            if (row >= 0 && row < playerBoard.length) {
+              rowCoordinateEntryCompleted = true;
             }
-            break;
-          case 3:
-            if (ship.getDirection() == Direction.VERTICAL) {
-              for(int i=0; i<ship.getLength(); i++) {
-                Position offset = new Position(ship.getPosition().getRow(),
-                    ship.getPosition().getColumn() + i);
-                playerBoard.setCharacterAtPosition(PositionStatus.DESTROYER.getStatus(), offset);
-              }
-            }else{
-              for (int i = 0; i < ship.getLength(); i++) {
-                Position offset = new Position(ship.getPosition().getRow() + i,
-                    ship.getPosition().getColumn());
-                playerBoard.setCharacterAtPosition(PositionStatus.DESTROYER.getStatus(), offset);
-              }
+          } catch (IllegalArgumentException e) {
+            System.out.printf("Invalid input: %s%n", input);
+          }
+        } while (!rowCoordinateEntryCompleted);
+
+        // Handling for direction selection input
+        do {
+          System.out.printf(
+              "Do you want your %s to be Vertical or Horizontal? (V/h): ", ship.getShipType());
+          try {
+            input = directionEntry();
+            if (input.charAt(0) == 'v') {
+              ship.setDirection(Direction.VERTICAL);
+              directionSelectionCompleted = true;
             }
-            break;
-          case 4:
-            if (ship.getDirection() == Direction.VERTICAL) {
-              for(int i=0; i<ship.getLength(); i++) {
-                Position offset = new Position(ship.getPosition().getRow(),
-                    ship.getPosition().getColumn() + i);
-                playerBoard.setCharacterAtPosition(PositionStatus.BATTLESHIP.getStatus(), offset);
-              }
-            }else{
-              for (int i = 0; i < ship.getLength(); i++) {
-                Position offset = new Position(ship.getPosition().getRow() + i,
-                    ship.getPosition().getColumn());
-                playerBoard.setCharacterAtPosition(PositionStatus.BATTLESHIP.getStatus(), offset);
-              }
+            else if (input.charAt(0) == 'h'){
+              ship.setDirection(Direction.HORIZONTAL);
+              directionSelectionCompleted = true;
             }
-          case 5:
-            if (ship.getDirection() == Direction.VERTICAL) {
-              for(int i=0; i<ship.getLength(); i++) {
-                Position offset = new Position(ship.getPosition().getRow(),
-                    ship.getPosition().getColumn() + i);
-                playerBoard.setCharacterAtPosition(PositionStatus.CARRIER.getStatus(), offset);
-              }
-            }else{
-              for (int i = 0; i < ship.getLength(); i++) {
-                Position offset = new Position(ship.getPosition().getRow() + i,
-                    ship.getPosition().getColumn());
-                playerBoard.setCharacterAtPosition(PositionStatus.CARRIER.getStatus(), offset);
-              }
+          } catch (IllegalArgumentException e) {
+            System.out.printf("Invalid input: %s%n", input);
+          }
+        } while (!directionSelectionCompleted);
+
+        // Handling for column selection input
+        do {
+          System.out.printf(
+              "What column do you want the %s that is %d spaces long, to start on? (0-9): ", ship.getShipType(), ship.getLength());
+          try {
+            input = columnCoordinateEntry();
+            column = Integer.parseInt(input);
+            // TODO: change the >= to just > after we handle user input handling to -1 in the logic to match matrix indexing
+            if (column >= 0 && column < playerBoard.length) {
+              columnCoordinateEntryCompleted = true;
             }
+          } catch (IllegalArgumentException e) {
+            System.out.printf("Invalid input: %s%n", input);
+          }
+        } while (!columnCoordinateEntryCompleted);
+
+        Position placement = new Position(row, column);
+        ship.setPosition(placement);
+
+        // if spaceAvailable method passes, places ship & changes position status to match shipType
+        if(
+            playerBoard.placementCoordinatesInBoardBoundaries(ship)
+                && playerBoard.placementCoordinatesAvailable(ship))
+        {
+          switch (ship.getLength()) {
+            case 1:
+              playerBoard.setCharacterAtPosition(PositionStatus.PATROL_BOAT.getStatus(), ship.getPosition());
+              break;
+            case 2:
+              if (ship.getDirection() == Direction.HORIZONTAL) {
+                for(int i=0; i<ship.getLength(); i++){
+                  Position offset = new Position(ship.getPosition().getRow(),
+                      ship.getPosition().getColumn()+i);
+                  playerBoard.setCharacterAtPosition(PositionStatus.SUBMARINE.getStatus(), offset);
+                }
+              } else {
+                for (int i = 0; i < ship.getLength(); i++) {
+                  Position offset = new Position(ship.getPosition().getRow() + i,
+                      ship.getPosition().getColumn());
+                  playerBoard.setCharacterAtPosition(PositionStatus.SUBMARINE.getStatus(), offset);
+                }
+              }
+              break;
+            case 3:
+              if (ship.getDirection() == Direction.HORIZONTAL) {
+                for(int i=0; i<ship.getLength(); i++) {
+                  Position offset = new Position(ship.getPosition().getRow(),
+                      ship.getPosition().getColumn() + i);
+                  playerBoard.setCharacterAtPosition(PositionStatus.DESTROYER.getStatus(), offset);
+                }
+              }else{
+                for (int i = 0; i < ship.getLength(); i++) {
+                  Position offset = new Position(ship.getPosition().getRow() + i,
+                      ship.getPosition().getColumn());
+                  playerBoard.setCharacterAtPosition(PositionStatus.DESTROYER.getStatus(), offset);
+                }
+              }
+              break;
+            case 4:
+              if (ship.getDirection() == Direction.HORIZONTAL) {
+                for(int i=0; i<ship.getLength(); i++) {
+                  Position offset = new Position(ship.getPosition().getRow(),
+                      ship.getPosition().getColumn() + i);
+                  playerBoard.setCharacterAtPosition(PositionStatus.BATTLESHIP.getStatus(), offset);
+                }
+              }else{
+                for (int i = 0; i < ship.getLength(); i++) {
+                  Position offset = new Position(ship.getPosition().getRow() + i,
+                      ship.getPosition().getColumn());
+                  playerBoard.setCharacterAtPosition(PositionStatus.BATTLESHIP.getStatus(), offset);
+                }
+              }
+              break;
+            case 5:
+              if (ship.getDirection() == Direction.HORIZONTAL) {
+                for(int i=0; i<ship.getLength(); i++) {
+                  Position offset = new Position(ship.getPosition().getRow(),
+                      ship.getPosition().getColumn() + i);
+                  playerBoard.setCharacterAtPosition(PositionStatus.CARRIER.getStatus(), offset);
+                }
+              }else{
+                for (int i = 0; i < ship.getLength(); i++) {
+                  Position offset = new Position(ship.getPosition().getRow() + i,
+                      ship.getPosition().getColumn());
+                  playerBoard.setCharacterAtPosition(PositionStatus.CARRIER.getStatus(), offset);
+                }
+              }
+          }
+        }else{
+          System.out.printf("Penalty! You cannot place a ship out of bounds or on another ship. Your %s has been lost at sea!", ship.getShipType());
+          playerShipInventory.remove(ship);
         }
-      }
     }
   }
 
@@ -219,7 +223,7 @@ public class Player {
     // Handling for row selection input
     do {
       System.out.print(
-          "What row do you want attack? 0-9");
+          "What row do you want attack? 0-9: ");
       try {
         input = this.input.readLine().strip();
         row = Integer.parseInt(input);
@@ -235,7 +239,7 @@ public class Player {
     // Handling for column selection input
     do {
       System.out.print(
-          "What column do you want attack? 0-9");
+          "What column do you want attack? 0-9: ");
       try {
         input = this.input.readLine().strip();
         column = Integer.parseInt(input);
