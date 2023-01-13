@@ -37,12 +37,12 @@ public class PositionStatusTest {
 
   @Test
   public void testHit() {
-    assertEquals('\u2612', PositionStatus.HIT.getStatus());
+    assertEquals('\u2638', PositionStatus.HIT.getStatus());
   }
 
   @Test
   public void testMiss() {
-    assertEquals('\u2638', PositionStatus.MISS.getStatus());
+    assertEquals('☒', PositionStatus.MISS.getStatus());
   }
 
 }

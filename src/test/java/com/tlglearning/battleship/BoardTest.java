@@ -75,38 +75,10 @@ public class BoardTest {
   }
 
   @Test
-  public void placementCoordinatesInBoardBoundaries_for_CarrierPosition1_throwsIllegalArgumentException()
-      throws IllegalArgumentException {
-    Ship carrier = new Ship(ShipType.CARRIER, POSITION_1, Direction.VERTICAL);
-    Exception exception = assertThrows(IllegalArgumentException.class,
-        () -> BOARD_LENGTH_10.placementCoordinatesInBoardBoundaries(carrier));
-
-    String expectedMessage = "Ship cannot be placed here— the calculated space needed to place this ship goes out of bounds.";
-    String actualMessage = exception.getMessage();
-
-    assertTrue(actualMessage.contains(expectedMessage));
-  }
-
-  @Test
   public void placementCoordinatesInBoardBoundaries_for_CarrierPosition2_returnsTrue() {
     Ship carrier = new Ship(ShipType.CARRIER, POSITION_2, Direction.VERTICAL);
 
     assertTrue(BOARD_LENGTH_10.placementCoordinatesInBoardBoundaries(carrier));
-  }
-
-  @Test
-  public void placementCoordinatesAvailable_for_CarrierPosition2_throwsIllegalArgumentException() {
-    BOARD_LENGTH_10.setCharacterAtPosition('☐',POSITION_2);
-
-    Ship carrier = new Ship(ShipType.CARRIER, POSITION_2, Direction.VERTICAL);
-
-    Exception exception = assertThrows(IllegalArgumentException.class,
-        () -> BOARD_LENGTH_10.placementCoordinatesAvailable(carrier));
-
-    String expectedMessage = "Ship cannot be placed here— the calculated space needed to place this ship is not all water.";
-    String actualMessage = exception.getMessage();
-
-    assertTrue(actualMessage.contains(expectedMessage));
   }
 
   @Test

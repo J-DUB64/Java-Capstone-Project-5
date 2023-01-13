@@ -11,7 +11,7 @@ public class Player {
 
   private final String name;
   private final Board playerBoard;
-  private ArrayList<String> verticalVersusHorizontal;
+  private final ArrayList<String> verticalVersusHorizontal;
   private ArrayList<Ship> playerShipInventory;
   private PrintStream output;
   private BufferedReader input;
@@ -64,34 +64,30 @@ public class Player {
     playerShipInventory.removeIf(shipCheck -> shipCheck.getHealthPoints() == 0);
   }
 
-  ;
 
   private String rowCoordinateEntry() throws IOException {
-    String input = this.input
+    return this.input
         .readLine()
         .strip()
         .toLowerCase();
-    return input;
   }
 
   private String columnCoordinateEntry() throws IOException {
-    String input = this.input
+    return this.input
         .readLine()
         .strip()
         .toLowerCase();
-    return input;
   }
 
   private String directionEntry() throws IOException {
-    String input = this.input
+    return this.input
         .readLine()
         .strip()
         .toLowerCase();
-    return input;
   }
 
   public void placePlayerShips(Board playerBoard) throws IOException {
-    ArrayList<Ship> penaltyShips = new ArrayList<Ship>();
+    ArrayList<Ship> penaltyShips = new ArrayList<>();
     for (Ship ship : playerShipInventory) {
       int row = 0;
       int column = 0;
@@ -107,7 +103,6 @@ public class Player {
           try {
             input = rowCoordinateEntry();
             row = Integer.parseInt(input);
-            // TODO: change the >= to just > after we handle user input handling to -1 in the logic to match matrix indexing
             if (row >= 0 && row < playerBoard.length) {
               rowCoordinateEntryCompleted = true;
             }
@@ -128,6 +123,9 @@ public class Player {
             } else if (input.charAt(0) == 'h') {
               ship.setDirection(Direction.HORIZONTAL);
               directionSelectionCompleted = true;
+            } else{
+              System.out.printf("Invalid input: %s%n", input);
+              directionSelectionCompleted = false;
             }
           } catch (IllegalArgumentException e) {
             System.out.printf("Invalid input: %s%n", input);
@@ -142,7 +140,6 @@ public class Player {
           try {
             input = columnCoordinateEntry();
             column = Integer.parseInt(input);
-            // TODO: change the >= to just > after we handle user input handling to -1 in the logic to match matrix indexing
             if (column >= 0 && column < playerBoard.length) {
               columnCoordinateEntryCompleted = true;
             }
@@ -236,8 +233,7 @@ public class Player {
         do {
           try {
             row = rand.nextInt(10);
-            // TODO: change the >= to just > after we handle user input handling to -1 in the logic to match matrix indexing
-            if (row >= 0 && row < playerBoard.length) {
+            if (row < playerBoard.length) {
               rowCoordinateEntryCompleted = true;
             }
           } catch (IllegalArgumentException e) {
@@ -265,8 +261,7 @@ public class Player {
         do {
           try {
             column = rand.nextInt(10);
-            // TODO: change the >= to just > after we handle user input handling to -1 in the logic to match matrix indexing
-            if (column >= 0 && column < playerBoard.length) {
+            if (column < playerBoard.length) {
               columnCoordinateEntryCompleted = true;
             }
           } catch (IllegalArgumentException e) {
@@ -372,7 +367,6 @@ public class Player {
         try {
           input = this.input.readLine().strip();
           row = Integer.parseInt(input);
-          // TODO: change the >= to just > after we handle user input handling to -1 in the logic to match matrix indexing
           if (row >= 0 && row < getPlayerBoard().length) {
             rowCoordinateEntryCompleted = true;
           }
@@ -388,7 +382,6 @@ public class Player {
         try {
           input = this.input.readLine().strip();
           column = Integer.parseInt(input);
-          // TODO: change the >= to just > after we handle user input handling to -1 in the logic to match matrix indexing
           if (column >= 0 && column < getPlayerBoard().length) {
             columnCoordinateEntryCompleted = true;
           }
@@ -434,15 +427,14 @@ public class Player {
         System.out.println("MISS!");
       } else if (opponentBoard.getCharacterAtPosition(position) == PositionStatus.MISS.getStatus()
           || opponentBoard.getCharacterAtPosition(position) == PositionStatus.HIT.getStatus()) {
-        throw new IllegalArgumentException("Cannot fire at a space previously fired upon.");
+        System.out.println("Cannot fire at a space previously fired upon.");
       }
     } else {
       // COMPUTER-DATA SHOOTING LOGIC
       do {
         try {
           row = rand.nextInt(10);
-          // TODO: change the >= to just > after we handle user input handling to -1 in the logic to match matrix indexing
-          if (row >= 0 && row < getPlayerBoard().length) {
+          if (row < getPlayerBoard().length) {
             rowCoordinateEntryCompleted = true;
           }
         } catch (IllegalArgumentException e) {
@@ -454,8 +446,7 @@ public class Player {
       do {
         try {
           column = rand.nextInt(10);
-          // TODO: change the >= to just > after we handle user input handling to -1 in the logic to match matrix indexing
-          if (column >= 0 && column < getPlayerBoard().length) {
+          if (column < getPlayerBoard().length) {
             columnCoordinateEntryCompleted = true;
           }
         } catch (IllegalArgumentException e) {
@@ -511,15 +502,16 @@ public class Player {
     try {
       System.out.println("\n");
       int length = board.length;
-      String str = "|\t";
+      StringBuilder str = new StringBuilder("|\t");
       System.out.println("    0 1 2 3 4 5 6 7 8 9");
       for (int i = 0; i < length; i++) {
         for (int j = 0; j < length; j++) {
-          str += board.getCharacterAtPosition(new Position(i, j)) + "\t";
+          str.append(board.getCharacterAtPosition(new Position(i, j))).append("\t");
         }
-        System.out.println(i + str + "|");
-        str = "|\t";
+        System.out.println(i + str.toString() + "|" + i);
+        str = new StringBuilder("|\t");
       }
+      System.out.println("    0 1 2 3 4 5 6 7 8 9");
     } catch (Exception e) {
       System.out.println("Empty Board being passed in!");
     }
@@ -527,8 +519,7 @@ public class Player {
 
   public String getRandomDirectionString(ArrayList<String> directionStringList) {
     double randomIndex = Math.floor(Math.random() * directionStringList.size());
-    String item = directionStringList.get((int) randomIndex);
-    return item;
+    return directionStringList.get((int) randomIndex);
   }
 
 }

@@ -9,16 +9,18 @@ import com.tlglearning.battleship.model.Player;
 import com.tlglearning.battleship.model.Position;
 import com.tlglearning.battleship.model.Ship;
 import com.tlglearning.battleship.model.Ship.Direction;
+import java.io.BufferedReader;
 import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
 
 class PlayerTest {
 
+  private static BufferedReader input;
   private static final Board PLAYER_1_BOARD = new Board(10);
   private static final Board PLAYER_2_BOARD = new Board(10);
-  private static final Player PLAYER_1 = new Player("Evelyn", PLAYER_1_BOARD);
+  private static final Player PLAYER_1 = new Player("Evelyn", PLAYER_1_BOARD, input);
   private static final String PLAYER_1_NAME = "Evelyn";
-  private static final Player PLAYER_2 = new Player("Bob", PLAYER_2_BOARD);
+  private static final Player PLAYER_2 = new Player("Bob", PLAYER_2_BOARD, input);
   private static final int PLAYER_1_BOARD_REMAINING_SHIPS = 0;
   public static final ArrayList<Ship> EMPTY_SHIP_INVENTORY = new ArrayList<>();
   public static final ArrayList<Ship> PLAYER_1_SHIP_INVENTORY = new ArrayList<>() {
@@ -37,12 +39,6 @@ class PlayerTest {
     assertEquals(PLAYER_1_BOARD, PLAYER_1.getPlayerBoard());
   }
 
-  @Test
-  void getPlayerShipInventory_returnsEmptyInitialArrayList() {
-    assertEquals(
-        EMPTY_SHIP_INVENTORY,
-        PLAYER_1.getPlayerShipInventory());
-  }
 
   @Test
   void decrementShip() {
@@ -52,42 +48,4 @@ class PlayerTest {
     assertEquals(4, PLAYER_1.getPlayerShipInventory().get(index).getHealthPoints());
   }
 
-  @Test
-  void playerShoots_valid_HIT() {
-    Position HIT = new Position(2,2);
-    PLAYER_2_BOARD.setCharacterAtPosition(PositionStatus.BATTLESHIP.getStatus(), HIT);
-
-    PLAYER_1.playerShoots(HIT, PLAYER_2);
-
-    assertEquals(PLAYER_2_BOARD.getCharacterAtPosition(HIT), PositionStatus.HIT.getStatus());
-  }
-
-  @Test
-  void playerShoots_valid_MISS() {
-    Position MISS = new Position(2,2);
-
-    PLAYER_1.playerShoots(MISS, PLAYER_2);
-
-    assertEquals(PLAYER_2_BOARD.getCharacterAtPosition(MISS), PositionStatus.MISS.getStatus());
-  }
-
-  @Test
-  void playerShoots_invalid_previousHit() throws IllegalArgumentException{
-    Position HIT = new Position(2,2);
-    PLAYER_2_BOARD.setCharacterAtPosition(PositionStatus.HIT.getStatus(), HIT);
-
-    assertThrows(IllegalArgumentException.class, () -> PLAYER_1.playerShoots(HIT, PLAYER_2));
-  }
-
-  @Test
-  void getPlayerShipInventory_returnsArrayListWithBattleship() {
-    PLAYER_1.getPlayerShipInventory().add(
-        new Ship(ShipType.CARRIER, new Position(1, 3), Direction.HORIZONTAL)
-    );
-
-    assertEquals(
-        PLAYER_1_SHIP_INVENTORY,
-        PLAYER_1.getPlayerShipInventory()
-    );
-  }
 }

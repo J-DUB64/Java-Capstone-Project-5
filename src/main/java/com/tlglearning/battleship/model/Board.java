@@ -41,10 +41,9 @@ public class Board {
     return board[position.getRow()][position.getColumn()];
   }
 
-  public boolean setCharacterAtPosition(char status,
+  public void setCharacterAtPosition(char status,
       Position position) {
     board[position.getRow()][position.getColumn()] = status;
-    return true;
   }
 
   public char[][] initBoard() {
@@ -79,7 +78,8 @@ public class Board {
     for (int i = 0; i < shipLength; i++) {
       int checkRow = row + i * ship.getDirection().getRowOffset();
       int checkColumn = column + i * ship.getDirection().getColumnOffset();
-      boolean positionStatusNotWater =  board[checkRow][checkColumn] != PositionStatus.WATER.getStatus();
+      boolean positionStatusNotWater =
+          board[checkRow][checkColumn] != PositionStatus.WATER.getStatus();
       if (positionStatusNotWater) {
         return false;
       }
