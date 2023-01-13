@@ -29,8 +29,10 @@ public class SessionController {
       // create instance of player (not-Computer)
       String humanPlayerName = playerNameEntry();
       Player humanPlayer = new Player(humanPlayerName, playerOneBoard_personal, input);
+      humanPlayer.setComputer(false);
       // create instance of player (Computer)
       Player computerPlayer = new Player(computerName, computerBoard_personal, input);
+      computerPlayer.setComputer(true);
       // place ships
       humanPlayer.placePlayerShips(playerOneBoard_personal);
       humanPlayer.printBoard(playerOneBoard_personal);
