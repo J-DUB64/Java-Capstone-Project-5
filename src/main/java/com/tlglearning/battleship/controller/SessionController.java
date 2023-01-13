@@ -48,15 +48,18 @@ public class SessionController {
         humanPlayer.playerShoots(playerOneBoard_for_trackingOpponent, computerPlayer, computerBoard_personal);
         humanPlayer.printBoard(playerOneBoard_for_trackingOpponent);
         System.out.println("-------------------------------------");
-        computerPlayer.playerShoots(computerBoard_for_trackingOpponent, humanPlayer, playerOneBoard_personal);
-        humanPlayer.printBoard(playerOneBoard_personal);
-        System.out.println("-------------------------------------");
+        if(!computerPlayer.getPlayerShipInventory().isEmpty()) {
+          computerPlayer.playerShoots(computerBoard_for_trackingOpponent, humanPlayer,
+              playerOneBoard_personal);
+          humanPlayer.printBoard(playerOneBoard_personal);
+          System.out.println("-------------------------------------");
+        }
       } while (!humanPlayer.getPlayerShipInventory().isEmpty() | !computerPlayer.getPlayerShipInventory().isEmpty());
 
       if (humanPlayer.getPlayerShipInventory().isEmpty()) {
-        System.out.print("You have lost to the Computer! Better luck next time, " + humanPlayerName + "!");
+        System.out.print("You have lost to the Computer! Better luck next time, " + humanPlayerName + "! ");
       } else if (computerPlayer.getPlayerShipInventory().isEmpty()){
-        System.out.print("Congratulations " + humanPlayerName + ", you've won!");
+        System.out.print("Congratulations " + humanPlayerName + ", you've won! ");
       }
 
     } while (continuePlay());
