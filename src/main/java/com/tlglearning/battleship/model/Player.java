@@ -96,6 +96,7 @@ public class Player {
       int row = 0;
       int column = 0;
       String input = null;
+      Random rand = new Random();
       if (!isComputer) {
         // Handling for row selection input
         printBoard(playerBoard);
@@ -233,10 +234,8 @@ public class Player {
         // COMPUTER DATA -- START
         // Handling for row selection input
         do {
-          Random rand = new Random();
           try {
-            int randomCompInput = rand.nextInt(1) + 5;
-            row = randomCompInput;
+            row = rand.nextInt(10);
             // TODO: change the >= to just > after we handle user input handling to -1 in the logic to match matrix indexing
             if (row >= 0 && row < playerBoard.length) {
               rowCoordinateEntryCompleted = true;
@@ -249,8 +248,7 @@ public class Player {
         // Handling for direction selection input
         do {
           try {
-            String randomCompInput = getRandomDirectionString(verticalVersusHorizontal);
-            input = randomCompInput;
+            input = getRandomDirectionString(verticalVersusHorizontal);
             if (input.charAt(0) == 'v') {
               ship.setDirection(Direction.VERTICAL);
               directionSelectionCompleted = true;
@@ -265,10 +263,8 @@ public class Player {
 
         // Handling for column selection input
         do {
-          Random rand = new Random();
           try {
-            int randomCompInput = rand.nextInt(1) + 5;
-            column = randomCompInput;
+            column = rand.nextInt(10);
             // TODO: change the >= to just > after we handle user input handling to -1 in the logic to match matrix indexing
             if (column >= 0 && column < playerBoard.length) {
               columnCoordinateEntryCompleted = true;
@@ -366,6 +362,7 @@ public class Player {
     boolean rowCoordinateEntryCompleted = false;
     boolean columnCoordinateEntryCompleted = false;
     String input = null;
+    Random rand = new Random();
 
     // Handling for row selection input
     if (!isComputer) {
@@ -442,10 +439,8 @@ public class Player {
     } else {
       // COMPUTER-DATA SHOOTING LOGIC
       do {
-        Random rand = new Random();
         try {
-          int randomCompInput = rand.nextInt(1) + 5;
-          row = randomCompInput;
+          row = rand.nextInt(10);
           // TODO: change the >= to just > after we handle user input handling to -1 in the logic to match matrix indexing
           if (row >= 0 && row < getPlayerBoard().length) {
             rowCoordinateEntryCompleted = true;
@@ -457,10 +452,8 @@ public class Player {
 
       // Handling for column selection input
       do {
-        Random rand = new Random();
         try {
-          int randomCompInput = rand.nextInt(1) + 5;
-          column = randomCompInput;
+          column = rand.nextInt(10);
           // TODO: change the >= to just > after we handle user input handling to -1 in the logic to match matrix indexing
           if (column >= 0 && column < getPlayerBoard().length) {
             columnCoordinateEntryCompleted = true;
@@ -509,7 +502,7 @@ public class Player {
         System.out.println("MISS!");
       } else if (opponentBoard.getCharacterAtPosition(position) == PositionStatus.MISS.getStatus()
           || opponentBoard.getCharacterAtPosition(position) == PositionStatus.HIT.getStatus()) {
-        throw new IllegalArgumentException("Cannot fire at a space previously fired upon.");
+        System.out.println("Cannot fire at a space previously fired upon.");
       }
     }
   }
