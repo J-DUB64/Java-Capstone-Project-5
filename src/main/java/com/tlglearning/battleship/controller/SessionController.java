@@ -54,7 +54,7 @@ public class SessionController {
           humanPlayer.printBoard(playerOneBoard_personal);
           System.out.println("-------------------------------------");
         }
-      } while (!humanPlayer.getPlayerShipInventory().isEmpty() | !computerPlayer.getPlayerShipInventory().isEmpty());
+      } while(!humanPlayer.getPlayerShipInventory().isEmpty() & !computerPlayer.getPlayerShipInventory().isEmpty());
 
       if (humanPlayer.getPlayerShipInventory().isEmpty()) {
         System.out.print("You have lost to the Computer! Better luck next time, " + humanPlayerName + "! ");
